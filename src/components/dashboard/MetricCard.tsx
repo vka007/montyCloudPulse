@@ -26,6 +26,7 @@ import { metricCardStyles } from './MetricCard.styles';
 
 interface MetricCardProps {
   data: MetricCardData;
+  size?: 'small' | 'medium' | 'large' | 'default';
 }
 
 const getIconByTitle = (title: string) => {
@@ -109,7 +110,7 @@ const getTrendColor = (trend?: 'up' | 'down' | 'stable') => {
   }
 };
 
-export const MetricCard: React.FC<MetricCardProps> = ({ data }) => {
+export const MetricCard: React.FC<MetricCardProps> = ({ data, size = 'default' }) => {
   const theme = useTheme();
   const { 
     title, 
@@ -125,6 +126,34 @@ export const MetricCard: React.FC<MetricCardProps> = ({ data }) => {
     isLive,
     lastUpdated
   } = data;
+
+  // Get card style based on size
+  const getCardStyle = () => {
+    switch (size) {
+      case 'small':
+        return metricCardStyles.cardSmall;
+      case 'medium':
+        return metricCardStyles.cardMedium;
+      case 'large':
+        return metricCardStyles.cardLarge;
+      default:
+        return metricCardStyles.card;
+    }
+  };
+
+  // Get value style based on size
+  const getValueStyle = () => {
+    switch (size) {
+      case 'small':
+        return metricCardStyles.valueSmall;
+      case 'medium':
+        return metricCardStyles.valueMedium;
+      case 'large':
+        return metricCardStyles.valueLarge;
+      default:
+        return metricCardStyles.value;
+    }
+  };
 
   const cardColor = theme.palette[color]?.main || theme.palette.primary.main;
   const trendIcon = getTrendIcon(trend);
@@ -144,7 +173,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({ data }) => {
   };
 
   return (
-    <Card sx={metricCardStyles.card}>
+    <Card sx={getCardStyle()}>
       <CardContent sx={{ p: 0, '&:last-child': { pb: 0 } }}>
         {/* Live indicator */}
         {isLive && <Box sx={metricCardStyles.liveIndicator} />}
@@ -160,7 +189,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({ data }) => {
 
         <Box sx={metricCardStyles.valueContainer}>
           <Typography 
-            sx={{ ...metricCardStyles.value, color: cardColor }}
+            sx={{ ...getValueStyle(), color: cardColor }}
           >
             {value}{unit && <span style={{ fontSize: '0.7em' }}> {unit}</span>}
           </Typography>

@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import {
   Dashboard,
-  Inventory,
+  Storage,
   Cloud,
 } from '@mui/icons-material';
 import { ThemeToggle } from './ThemeToggle';
@@ -28,7 +28,7 @@ const navigationItems = [
   {
     id: 'inventory',
     label: 'Resource Inventory',
-    icon: <Inventory />,
+    icon: <Storage />,
   },
 ];
 
@@ -45,12 +45,12 @@ export const SidebarLayout: React.FC<SidebarLayoutProps> = ({
       {/* Sidebar */}
       <Box
         sx={{
-          width: isHovered ? 240 : 64,
-          backgroundColor: '#1e293b',
+          width: isHovered ? 200 : 56,
+          backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#1e293b' : '#1e293b',
           transition: 'width 0.3s ease-in-out',
           position: 'relative',
           zIndex: 1200,
-          borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRight: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.1)'}`,
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -59,11 +59,11 @@ export const SidebarLayout: React.FC<SidebarLayoutProps> = ({
         <Box sx={sidebarLayoutStyles.sidebarHeader}>
           <Box sx={sidebarLayoutStyles.logo}>
             <Box sx={sidebarLayoutStyles.logoIcon}>
-              <Cloud />
+              <Cloud sx={{ fontSize: '1.1rem' }} />
             </Box>
             <Typography
               sx={{
-                fontSize: '1.1rem',
+                fontSize: '0.95rem',
                 fontWeight: 600,
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
@@ -91,7 +91,7 @@ export const SidebarLayout: React.FC<SidebarLayoutProps> = ({
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  padding: '12px 16px',
+                  padding: '10px 12px',
                   color: activeTab === item.id ? '#3b82f6' : 'rgba(255, 255, 255, 0.7)',
                   textDecoration: 'none',
                   transition: 'all 0.2s ease-in-out',
@@ -107,17 +107,17 @@ export const SidebarLayout: React.FC<SidebarLayoutProps> = ({
                 onClick={() => onTabChange(item.id)}
               >
                 <Box sx={sidebarLayoutStyles.navIcon}>
-                  {item.icon}
+                  {React.cloneElement(item.icon, { sx: { fontSize: '1.1rem' } })}
                 </Box>
                 <Typography
                   sx={{
-                    fontSize: '0.9rem',
+                    fontSize: '0.85rem',
                     fontWeight: 500,
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     opacity: isHovered ? 1 : 0,
                     transition: 'opacity 0.3s ease-in-out',
-                    ml: 2,
+                    ml: 1.5,
                   }}
                 >
                   {item.label}

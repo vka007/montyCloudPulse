@@ -255,40 +255,70 @@ export const DashboardGrid: React.FC = () => {
       <Typography variant="h5" sx={dashboardGridStyles.sectionTitle}>
         Resource Status Overview
       </Typography>
-      <Grid container spacing={3} sx={dashboardGridStyles.metricsGrid}>
-        {statusMetrics.map((metric, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
-            <Box sx={dashboardGridStyles.gridItem}>
-              <MetricCard data={metric} />
-            </Box>
-          </Grid>
-        ))}
+      <Grid container spacing={2} sx={dashboardGridStyles.metricsGrid}>
+        {/* Top row - 4 small status cards */}
+        <Grid item xs={6} sm={3} md={3}>
+          <MetricCard data={statusMetrics[0]} size="small" />
+        </Grid>
+        <Grid item xs={6} sm={3} md={3}>
+          <MetricCard data={statusMetrics[1]} size="small" />
+        </Grid>
+        <Grid item xs={6} sm={3} md={3}>
+          <MetricCard data={statusMetrics[2]} size="small" />
+        </Grid>
+        <Grid item xs={6} sm={3} md={3}>
+          <MetricCard data={statusMetrics[3]} size="small" />
+        </Grid>
       </Grid>
 
       {/* Performance Metrics */}
       <Typography variant="h5" sx={dashboardGridStyles.sectionTitle}>
         Performance Metrics
       </Typography>
-      <Grid container spacing={3} sx={dashboardGridStyles.metricsGrid}>
-        {performanceMetrics.map((metric, index) => (
-          <Grid item xs={12} sm={6} md={2.4} key={index}>
-            <Box sx={dashboardGridStyles.gridItem}>
-              <MetricCard data={metric} />
-            </Box>
-          </Grid>
-        ))}
+      <Grid container spacing={2} sx={dashboardGridStyles.metricsGrid}>
+        {/* First row - 3 medium cards */}
+        <Grid item xs={12} sm={6} md={4}>
+          <MetricCard data={performanceMetrics[0]} size="medium" />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <MetricCard data={performanceMetrics[1]} size="medium" />
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <MetricCard data={performanceMetrics[2]} size="medium" />
+        </Grid>
+        {/* Second row - 2 larger cards */}
+        <Grid item xs={12} sm={6} md={6}>
+          <MetricCard data={performanceMetrics[3]} size="large" />
+        </Grid>
+        <Grid item xs={12} sm={6} md={6}>
+          <MetricCard data={performanceMetrics[4]} size="large" />
+        </Grid>
       </Grid>
 
       {/* Resource Types */}
       <Typography variant="h5" sx={dashboardGridStyles.sectionTitle}>
         Resource Types
       </Typography>
-      <Grid container spacing={3}>
-        {typeMetrics.map((metric, index) => (
-          <Grid item xs={12} sm={6} md={2.4} key={index}>
-            <Box sx={dashboardGridStyles.gridItem}>
-              <MetricCard data={metric} />
-            </Box>
+      <Grid container spacing={2}>
+        {/* Mixed layout for resource types */}
+        <Grid item xs={6} sm={4} md={2.4}>
+          <MetricCard data={typeMetrics[0]} size="small" />
+        </Grid>
+        <Grid item xs={6} sm={4} md={2.4}>
+          <MetricCard data={typeMetrics[1]} size="small" />
+        </Grid>
+        <Grid item xs={6} sm={4} md={2.4}>
+          <MetricCard data={typeMetrics[2]} size="small" />
+        </Grid>
+        <Grid item xs={6} sm={4} md={2.4}>
+          <MetricCard data={typeMetrics[3]} size="small" />
+        </Grid>
+        <Grid item xs={6} sm={4} md={2.4}>
+          <MetricCard data={typeMetrics[4]} size="small" />
+        </Grid>
+        {typeMetrics.slice(5).map((metric, index) => (
+          <Grid item xs={6} sm={4} md={2.4} key={index + 5}>
+            <MetricCard data={metric} size="small" />
           </Grid>
         ))}
       </Grid>

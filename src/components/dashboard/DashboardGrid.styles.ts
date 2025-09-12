@@ -6,7 +6,7 @@ export const dashboardGridStyles = {
   } as SxProps<Theme>,
 
   metricsGrid: {
-    mb: 4,
+    mb: 3,
   } as SxProps<Theme>,
 
   sectionTitle: {

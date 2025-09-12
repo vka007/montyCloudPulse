@@ -48,7 +48,7 @@ export const ProfessionalHeader: React.FC<ProfessionalHeaderProps> = ({
           sx={{ 
             fontSize: '1.30rem',
             fontWeight: 700,
-            color: '#1e293b',
+            color: 'text.primary',
             lineHeight: 1.2,
             mb: 0.5
           }}
@@ -59,7 +59,7 @@ export const ProfessionalHeader: React.FC<ProfessionalHeaderProps> = ({
         <Typography 
           sx={{ 
             fontSize: '1rem',
-            color: '#64748b',
+            color: 'text.secondary',
             lineHeight: 1.4
           }}
         >
@@ -82,15 +82,15 @@ export const ProfessionalHeader: React.FC<ProfessionalHeaderProps> = ({
             disabled={loading}
             size="medium"
             sx={{
-              borderColor: '#d1d5db',
-              color: '#374151',
+              borderColor: 'divider',
+              color: 'text.primary',
               textTransform: 'none',
               fontWeight: 500,
               px: 3,
               '&:hover': {
-                borderColor: '#3b82f6',
-                backgroundColor: 'rgba(59, 130, 246, 0.04)',
-                color: '#3b82f6',
+                borderColor: 'primary.main',
+                backgroundColor: 'action.hover',
+                color: 'primary.main',
               },
             }}
           >
@@ -114,10 +114,10 @@ export const ProfessionalHeader: React.FC<ProfessionalHeaderProps> = ({
                   size="small"
                   sx={{
                     '& .MuiSwitch-switchBase.Mui-checked': {
-                      color: '#22c55e',
+                      color: 'success.main',
                     },
                     '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                      backgroundColor: '#22c55e',
+                      backgroundColor: 'success.main',
                     },
                   }}
                 />
@@ -127,7 +127,7 @@ export const ProfessionalHeader: React.FC<ProfessionalHeaderProps> = ({
                   sx={{ 
                     fontSize: '0.875rem',
                     fontWeight: 500,
-                    color: isRealTimeActive ? '#166534' : '#374151'
+                    color: 'text.primary'
                   }}
                 >
                   Real-time Updates
@@ -144,7 +144,7 @@ export const ProfessionalHeader: React.FC<ProfessionalHeaderProps> = ({
                 height: 24,
                 fontSize: '0.75rem',
                 fontWeight: 600,
-                backgroundColor: isRealTimeActive ? '#22c55e' : '#6b7280',
+                backgroundColor: isRealTimeActive ? 'success.main' : 'text.secondary',
                 color: 'white',
                 '& .MuiChip-icon': {
                   color: 'white',

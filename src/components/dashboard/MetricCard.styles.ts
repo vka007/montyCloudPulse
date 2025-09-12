@@ -14,6 +14,51 @@ export const metricCardStyles = {
     },
   } as SxProps<Theme>,
 
+  // Small card variant for key metrics
+  cardSmall: {
+    p: 2.5,
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+    transition: 'all 0.3s ease-in-out',
+    minHeight: 160,
+    '&:hover': {
+      transform: 'translateY(-4px)',
+      boxShadow: 4,
+    },
+  } as SxProps<Theme>,
+
+  // Medium card variant
+  cardMedium: {
+    p: 2.5,
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+    transition: 'all 0.3s ease-in-out',
+    minHeight: 200,
+    '&:hover': {
+      transform: 'translateY(-4px)',
+      boxShadow: 4,
+    },
+  } as SxProps<Theme>,
+
+  // Large card variant for detailed views
+  cardLarge: {
+    p: 3,
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+    transition: 'all 0.3s ease-in-out',
+    minHeight: 240,
+    '&:hover': {
+      transform: 'translateY(-4px)',
+      boxShadow: 4,
+    },
+  } as SxProps<Theme>,
+
   liveIndicator: {
     position: 'absolute',
     top: 12,
@@ -71,6 +116,27 @@ export const metricCardStyles = {
     fontWeight: 700,
     lineHeight: 1,
     mb: 1,
+  } as SxProps<Theme>,
+
+  valueSmall: {
+    fontSize: '2rem',
+    fontWeight: 700,
+    lineHeight: 1,
+    mb: 0.5,
+  } as SxProps<Theme>,
+
+  valueMedium: {
+    fontSize: '2.2rem',
+    fontWeight: 700,
+    lineHeight: 1,
+    mb: 0.75,
+  } as SxProps<Theme>,
+
+  valueLarge: {
+    fontSize: '2.8rem',
+    fontWeight: 700,
+    lineHeight: 1,
+    mb: 1.5,
   } as SxProps<Theme>,
 
   subtitle: {

@@ -8,27 +8,27 @@ export const sidebarLayoutStyles = {
   } as SxProps<Theme>,
 
   sidebar: {
-    width: 64, // Collapsed width
+    width: 56, // Collapsed width
     backgroundColor: '#1e293b', // Dark sidebar
     transition: 'width 0.3s ease-in-out',
     position: 'relative',
     zIndex: 1200,
     borderRight: '1px solid rgba(255, 255, 255, 0.1)',
     '&:hover': {
-      width: 240, // Expanded width
+      width: 200, // Expanded width
     },
   } as SxProps<Theme>,
 
   sidebarExpanded: {
-    width: 240,
+    width: 200,
   } as SxProps<Theme>,
 
   sidebarHeader: {
     display: 'flex',
     alignItems: 'center',
-    padding: '16px 12px',
+    padding: '12px 10px',
     borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-    minHeight: 64,
+    minHeight: 56,
   } as SxProps<Theme>,
 
   logo: {
@@ -41,15 +41,15 @@ export const sidebarLayoutStyles = {
   } as SxProps<Theme>,
 
   logoIcon: {
-    width: 32,
-    height: 32,
+    width: 28,
+    height: 28,
     backgroundColor: '#3b82f6',
-    borderRadius: '8px',
+    borderRadius: '6px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     color: 'white',
-    fontSize: '1.2rem',
+    fontSize: '1.1rem',
     fontWeight: 'bold',
     flexShrink: 0,
   } as SxProps<Theme>,
@@ -69,14 +69,14 @@ export const sidebarLayoutStyles = {
   } as SxProps<Theme>,
 
   navigation: {
-    padding: '16px 0',
+    padding: '12px 0',
     flex: 1,
   } as SxProps<Theme>,
 
   navItem: {
     display: 'flex',
     alignItems: 'center',
-    padding: '12px 16px',
+    padding: '10px 12px',
     color: 'rgba(255, 255, 255, 0.7)',
     textDecoration: 'none',
     transition: 'all 0.2s ease-in-out',
@@ -99,20 +99,20 @@ export const sidebarLayoutStyles = {
   } as SxProps<Theme>,
 
   navIcon: {
-    fontSize: '1.3rem',
-    minWidth: 32,
+    fontSize: '1.1rem',
+    minWidth: 28,
     display: 'flex',
     justifyContent: 'center',
   } as SxProps<Theme>,
 
   navText: {
-    fontSize: '0.9rem',
+    fontSize: '0.85rem',
     fontWeight: 500,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     opacity: 0,
     transition: 'opacity 0.3s ease-in-out',
-    ml: 2,
+    ml: 1.5,
   } as SxProps<Theme>,
 
   navTextVisible: {
@@ -123,13 +123,14 @@ export const sidebarLayoutStyles = {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#f8fafc',
+    backgroundColor: 'background.default',
     overflow: 'hidden',
   } as SxProps<Theme>,
 
   topBar: {
-    backgroundColor: 'white',
-    borderBottom: '1px solid #e2e8f0',
+    backgroundColor: 'background.paper',
+    borderBottom: '1px solid',
+    borderBottomColor: 'divider',
     padding: '0 24px',
     minHeight: 64,
     display: 'flex',
@@ -167,7 +168,7 @@ export const sidebarLayoutStyles = {
     flex: 1,
     padding: '24px',
     overflow: 'auto',
-    backgroundColor: '#f8fafc',
+    backgroundColor: 'background.default',
   } as SxProps<Theme>,
 
   // Hover effect styles
