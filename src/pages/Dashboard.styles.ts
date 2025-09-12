@@ -6,24 +6,15 @@ export const dashboardStyles = {
   } as SxProps<Theme>,
 
   title: {
-    // Title styles can be added here if needed (using gutterBottom prop instead)
+    mb: 1,
   } as SxProps<Theme>,
 
-  welcomeCard: {
-    p: 3,
-    mt: 2,
-    textAlign: 'center',
-    minHeight: 200,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  } as SxProps<Theme>,
-
-  welcomeTitle: {
+  subtitle: {
     color: 'text.secondary',
+    mb: 3,
   } as SxProps<Theme>,
 
-  welcomeSubtitle: {
-    mt: 1,
+  content: {
+    mt: 2,
   } as SxProps<Theme>,
 };

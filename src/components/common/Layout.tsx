@@ -11,9 +11,10 @@ import { layoutStyles } from './Layout.styles';
 
 interface LayoutProps {
   children: React.ReactNode;
+  headerContent?: React.ReactNode;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children }) => {
+export const Layout: React.FC<LayoutProps> = ({ children, headerContent }) => {
   return (
     <Box sx={layoutStyles.root}>
       <AppBar position="static" elevation={1}>
@@ -21,6 +22,13 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           <Typography variant="h6" component="div" sx={layoutStyles.title}>
             MontyCloud Pulse
           </Typography>
+          
+          {headerContent && (
+            <Box sx={{ flexGrow: 1, mx: 3 }}>
+              {headerContent}
+            </Box>
+          )}
+          
           <ThemeToggle />
         </Toolbar>
       </AppBar>

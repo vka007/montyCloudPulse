@@ -1,6 +1,6 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@mui/material';
-import { Layout } from '@/components/common/Layout';
 import { Dashboard } from '@/pages/Dashboard';
 import { useTheme } from '@/hooks/useTheme';
 
@@ -10,9 +10,14 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={muiTheme}>
       <CssBaseline />
-      <Layout>
-        <Dashboard />
-      </Layout>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/inventory" element={<Dashboard />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </Router>
     </ThemeProvider>
   );
 };
