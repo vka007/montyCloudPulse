@@ -1,6 +1,6 @@
 export const resourceTableStyles = {
   container: {
-    mt: 2,
+    mt: 1,
   },
   searchContainer: {
     mb: 3,

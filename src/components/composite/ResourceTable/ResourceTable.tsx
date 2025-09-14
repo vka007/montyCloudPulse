@@ -23,8 +23,6 @@ import {
 import {
   Search,
   Refresh,
-  Visibility,
-  Settings,
   Cloud,
   Dataset,
   Functions,
@@ -36,7 +34,6 @@ import {
 } from '@mui/icons-material';
 import { Card } from '@/components/base/Card/Card';
 import { Chip } from '@/components/base/Chip/Chip';
-import { Progress } from '@/components/base/Progress/Progress';
 import { EChart } from '@/components/base/EChart/EChart';
 import { useEnhancedResourceStore } from '@/store/enhancedResourceStore';
 import { FilterOptions, SortOptions } from '@/types/navigation';
@@ -56,34 +53,6 @@ const getResourceIcon = (type: string) => {
   return iconMap[type] || <Cloud fontSize="small" />;
 };
 
-const MetricBar: React.FC<{ value: number; max?: number; color?: string }> = ({ 
-  value, 
-  max = 100, 
-  color = 'primary' 
-}) => {
-  const percentage = Math.min(100, (value / max) * 100);
-  const getColor = (): 'success' | 'warning' | 'error' => {
-    if (color !== 'primary') return color as any;
-    if (percentage > 80) return 'error';
-    if (percentage > 60) return 'warning';
-    return 'success';
-  };
-
-  return (
-    <Box sx={resourceTableStyles.metricCell}>
-      <Typography variant="body2" sx={resourceTableStyles.metricValue}>
-        {value}%
-      </Typography>
-      <Progress
-        type="linear"
-        variant="determinate"
-        value={percentage}
-        color={getColor()}
-        size="small"
-      />
-    </Box>
-  );
-};
 
 export const ResourceTable: React.FC = () => {
   const { resources, loading, initializeIfNeeded } = useEnhancedResourceStore();
@@ -675,48 +644,51 @@ export const ResourceTable: React.FC = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: '0.875rem', width: '200px', maxWidth: '200px' }}>
                 <TableSortLabel
                   active={sortOptions.field === 'name'}
                   direction={sortOptions.field === 'name' ? sortOptions.direction : 'asc'}
                   onClick={() => handleSort('name')}
+                  sx={{ fontWeight: 700, fontSize: '0.875rem' }}
                 >
                   Resource
                 </TableSortLabel>
               </TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: '0.875rem', width: '100px', maxWidth: '100px' }}>Status</TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: '0.875rem', width: '80px', maxWidth: '80px' }}>
                 <TableSortLabel
                   active={sortOptions.field === 'type'}
                   direction={sortOptions.field === 'type' ? sortOptions.direction : 'asc'}
                   onClick={() => handleSort('type')}
+                  sx={{ fontWeight: 700, fontSize: '0.875rem' }}
                 >
                   Type
                 </TableSortLabel>
               </TableCell>
-              <TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: '0.875rem', width: '120px', maxWidth: '120px' }}>
                 <TableSortLabel
                   active={sortOptions.field === 'region'}
                   direction={sortOptions.field === 'region' ? sortOptions.direction : 'asc'}
                   onClick={() => handleSort('region')}
+                  sx={{ fontWeight: 700, fontSize: '0.875rem' }}
                 >
                   Region
                 </TableSortLabel>
               </TableCell>
-              <TableCell>CPU</TableCell>
-              <TableCell>Memory</TableCell>
-              <TableCell>Network</TableCell>
-              <TableCell>Monthly Cost</TableCell>
-              <TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: '0.875rem', width: '180px', maxWidth: '180px' }}>CPU</TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: '0.875rem', width: '180px', maxWidth: '180px' }}>Memory</TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: '0.875rem', width: '120px', maxWidth: '120px' }}>Network</TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: '0.875rem', width: '120px', maxWidth: '120px' }}>Monthly Cost</TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: '0.875rem', width: '120px', maxWidth: '120px' }}>
                 <TableSortLabel
                   active={sortOptions.field === 'lastUpdated'}
                   direction={sortOptions.field === 'lastUpdated' ? sortOptions.direction : 'asc'}
                   onClick={() => handleSort('lastUpdated')}
+                  sx={{ fontWeight: 700, fontSize: '0.875rem' }}
                 >
                   Last Updated
                 </TableSortLabel>
               </TableCell>
-              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -726,10 +698,10 @@ export const ResourceTable: React.FC = () => {
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     {getResourceIcon(resource.type)}
                     <Box>
-                      <Typography variant="body2" fontWeight={500}>
+                      <Typography variant="body2" fontWeight={600} sx={{ fontSize: '0.875rem' }}>
                         {resource.name}
                       </Typography>
-                      <Typography variant="caption" color="text.secondary">
+                      <Typography variant="caption" sx={{ fontWeight: 500, color: 'text.primary', fontSize: '0.75rem' }}>
                         {resource.id}
                       </Typography>
                     </Box>
@@ -743,49 +715,65 @@ export const ResourceTable: React.FC = () => {
                   />
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2">
+                  <Typography variant="body2" fontWeight={600} sx={{ fontSize: '0.875rem' }}>
                     {resource.type.toUpperCase()}
                   </Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2">
+                  <Typography variant="body2" fontWeight={600} sx={{ fontSize: '0.875rem' }}>
                     {resource.region}
                   </Typography>
                 </TableCell>
                 <TableCell>
-                  <MetricBar value={resource.metrics.cpu.current} />
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '100%' }}>
+                    <Typography variant="body2" fontWeight={600} sx={{ fontSize: '0.875rem', minWidth: 35 }}>
+                      {resource.metrics.cpu.current}%
+                    </Typography>
+                    <Box sx={{ flex: 1, height: 8, backgroundColor: '#e0e0e0', borderRadius: 4, overflow: 'hidden' }}>
+                      <Box 
+                        sx={{ 
+                          height: '100%', 
+                          width: `${resource.metrics.cpu.current}%`,
+                          backgroundColor: '#4caf50',
+                          borderRadius: 4,
+                          transition: 'width 0.3s ease'
+                        }} 
+                      />
+                    </Box>
+                  </Box>
                 </TableCell>
                 <TableCell>
-                  <MetricBar value={resource.metrics.memory.percentage} />
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '100%' }}>
+                    <Typography variant="body2" fontWeight={600} sx={{ fontSize: '0.875rem', minWidth: 35 }}>
+                      {resource.metrics.memory.percentage}%
+                    </Typography>
+                    <Box sx={{ flex: 1, height: 8, backgroundColor: '#e0e0e0', borderRadius: 4, overflow: 'hidden' }}>
+                      <Box 
+                        sx={{ 
+                          height: '100%', 
+                          width: `${resource.metrics.memory.percentage}%`,
+                          backgroundColor: resource.metrics.memory.percentage > 60 ? '#ff9800' : '#4caf50',
+                          borderRadius: 4,
+                          transition: 'width 0.3s ease'
+                        }} 
+                      />
+                    </Box>
+                  </Box>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2">
+                  <Typography variant="body2" fontWeight={600} sx={{ fontSize: '0.875rem' }}>
                     {Math.round((resource.metrics.network.inbound + resource.metrics.network.outbound) * 10) / 10} MB/s
                   </Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2" color="primary.main" fontWeight={500}>
+                  <Typography variant="body2" color="primary.main" fontWeight={700} sx={{ fontSize: '0.875rem' }}>
                     ${Math.round(resource.cost.monthly * 10) / 10}
                   </Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" fontWeight={600} sx={{ fontSize: '0.875rem', color: 'text.primary' }}>
                     {new Date(resource.lastUpdated).toLocaleTimeString()}
                   </Typography>
-                </TableCell>
-                <TableCell>
-                  <Box sx={{ display: 'flex', gap: 0.5 }}>
-                    <Tooltip title="View Details">
-                      <IconButton size="small" sx={resourceTableStyles.actionButton}>
-                        <Visibility fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Settings">
-                      <IconButton size="small" sx={resourceTableStyles.actionButton}>
-                        <Settings fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
                 </TableCell>
               </TableRow>
             ))}

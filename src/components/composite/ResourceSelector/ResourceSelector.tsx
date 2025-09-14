@@ -76,10 +76,10 @@ export const ResourceSelector: React.FC<ResourceSelectorProps> = ({
   onResourceChange,
   onResourceTypeChange,
   onRegionChange,
-  onAccountChange: _onAccountChange,
+  onAccountChange,
   resources,
   regions,
-  accounts: _accounts,
+  accounts,
   resourceTypes,
 }) => {
   const filteredResources = resources.filter(resource => {
@@ -96,14 +96,35 @@ export const ResourceSelector: React.FC<ResourceSelectorProps> = ({
     <Paper elevation={2} sx={resourceSelectorStyles.container}>
       <Box sx={resourceSelectorStyles.header}>
         <Typography variant="h6" sx={resourceSelectorStyles.title}>
-          Resource Selection
+          Resource Filter
         </Typography>
         <Typography variant="body2" sx={resourceSelectorStyles.subtitle}>
-          Select specific resources to view detailed metrics and costs
+          Filter resources by account, region, type, and specific resource
         </Typography>
       </Box>
 
       <Box sx={resourceSelectorStyles.filtersContainer}>
+        {/* Account Filter */}
+        <Box sx={resourceSelectorStyles.filterGroup}>
+          <Typography variant="subtitle2" sx={resourceSelectorStyles.filterLabel}>
+            Account
+          </Typography>
+          <FormControl fullWidth size="small">
+            <Select
+              value={selectedAccount}
+              onChange={(e) => onAccountChange(e.target.value)}
+              sx={resourceSelectorStyles.select}
+              displayEmpty
+            >
+              {accounts.map((account) => (
+                <MenuItem key={account} value={account}>
+                  {account === 'all' ? 'All Accounts' : account}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+
         {/* Region Filter */}
         <Box sx={resourceSelectorStyles.filterGroup}>
           <Typography variant="subtitle2" sx={resourceSelectorStyles.filterLabel}>

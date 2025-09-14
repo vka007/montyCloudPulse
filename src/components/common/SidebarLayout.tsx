@@ -59,7 +59,7 @@ export const SidebarLayout: React.FC<SidebarLayoutProps> = ({
         <Box sx={sidebarLayoutStyles.sidebarHeader}>
           <Box sx={sidebarLayoutStyles.logo}>
             <Box sx={sidebarLayoutStyles.logoIcon}>
-              <Cloud sx={{ fontSize: '1.1rem' }} />
+              <Cloud sx={{ fontSize: '1.375rem' }} />
             </Box>
             <Typography
               sx={{
@@ -107,7 +107,7 @@ export const SidebarLayout: React.FC<SidebarLayoutProps> = ({
                 onClick={() => onTabChange(item.id)}
               >
                 <Box sx={sidebarLayoutStyles.navIcon}>
-                  {React.cloneElement(item.icon, { sx: { fontSize: '1.1rem' } })}
+                  {React.cloneElement(item.icon, { sx: { fontSize: '1.375rem' } })}
                 </Box>
                 <Typography
                   sx={{
