@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TabValue } from '@/types/navigation';
-import { DashboardGrid } from '@/components/dashboard/DashboardGrid';
-import { ResourceTable } from '@/components/inventory/ResourceTable';
 import { SidebarLayout } from './SidebarLayout';
 import { ProfessionalHeader } from './ProfessionalHeader';
 
-export const Navigation: React.FC = () => {
+interface NavigationProps {
+  children: React.ReactNode;
+}
+
+export const Navigation: React.FC<NavigationProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<TabValue>('dashboard');
+  const [selectedAccount, setSelectedAccount] = useState<string>('all');
 
   // Update active tab based on URL
   useEffect(() => {
@@ -28,7 +31,9 @@ export const Navigation: React.FC = () => {
           <ProfessionalHeader
             title="Cloud Resources Dashboard"
             subtitle="Monitor and manage your cloud infrastructure in real-time"
-            showControls={true}
+            selectedAccount={selectedAccount}
+            onAccountChange={setSelectedAccount}
+            availableAccounts={['all', 'prod-account', 'dev-account', 'staging-account']}
           />
         );
       case 'inventory':
@@ -36,7 +41,9 @@ export const Navigation: React.FC = () => {
           <ProfessionalHeader
             title="Resource Inventory"
             subtitle="Search, filter, and manage your cloud resources"
-            showControls={false}
+            selectedAccount={selectedAccount}
+            onAccountChange={setSelectedAccount}
+            availableAccounts={['all', 'prod-account', 'dev-account', 'staging-account']}
           />
         );
       default:
@@ -44,16 +51,6 @@ export const Navigation: React.FC = () => {
     }
   };
 
-  const getTabContent = (tabValue: TabValue) => {
-    switch (tabValue) {
-      case 'dashboard':
-        return <DashboardGrid />;
-      case 'inventory':
-        return <ResourceTable />;
-      default:
-        return null;
-    }
-  };
 
   const handleTabChange = (tabId: string) => {
     const tabValue = tabId as TabValue;
@@ -67,7 +64,7 @@ export const Navigation: React.FC = () => {
       activeTab={activeTab}
       onTabChange={handleTabChange}
     >
-      {getTabContent(activeTab)}
+      {children}
     </SidebarLayout>
   );
 };

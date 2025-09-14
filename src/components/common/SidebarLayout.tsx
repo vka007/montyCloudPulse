@@ -27,7 +27,7 @@ const navigationItems = [
   },
   {
     id: 'inventory',
-    label: 'Resource Inventory',
+    label: 'Inventory',
     icon: <Storage />,
   },
 ];
@@ -111,13 +111,15 @@ export const SidebarLayout: React.FC<SidebarLayoutProps> = ({
                 </Box>
                 <Typography
                   sx={{
-                    fontSize: '0.85rem',
-                    fontWeight: 500,
+                    fontSize: '0.875rem',
+                    fontWeight: 600,
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     opacity: isHovered ? 1 : 0,
                     transition: 'opacity 0.3s ease-in-out',
                     ml: 1.5,
+                    color: 'inherit',
+                    letterSpacing: '0.01em',
                   }}
                 >
                   {item.label}

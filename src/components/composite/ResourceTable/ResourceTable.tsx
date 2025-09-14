@@ -13,12 +13,9 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Chip,
-  LinearProgress,
   IconButton,
   Typography,
   Grid,
-  Card,
   InputAdornment,
   Tooltip,
   TableSortLabel,
@@ -37,8 +34,11 @@ import {
   Api,
   ViewInAr,
 } from '@mui/icons-material';
+import { Card } from '@/components/base/Card/Card';
+import { Chip } from '@/components/base/Chip/Chip';
+import { Progress } from '@/components/base/Progress/Progress';
 import { useResourceStore } from '@/store/resourceStore';
-import { ResourceType, ResourceStatus } from '@/types/resources';
+import { ResourceType } from '@/types/resources';
 import { FilterOptions, SortOptions } from '@/types/navigation';
 import { resourceTableStyles } from './ResourceTable.styles';
 
@@ -56,25 +56,13 @@ const getResourceIcon = (type: ResourceType) => {
   return iconMap[type] || <Cloud fontSize="small" />;
 };
 
-const getStatusColor = (status: ResourceStatus): 'success' | 'warning' | 'error' | 'default' | 'secondary' => {
-  switch (status) {
-    case 'running': return 'success';
-    case 'warning': return 'warning';
-    case 'error': return 'error';
-    case 'stopped': return 'secondary';
-    case 'pending': return 'default';
-    case 'terminated': return 'error';
-    default: return 'default';
-  }
-};
-
 const MetricBar: React.FC<{ value: number; max?: number; color?: string }> = ({ 
   value, 
   max = 100, 
   color = 'primary' 
 }) => {
   const percentage = Math.min(100, (value / max) * 100);
-  const getColor = () => {
+  const getColor = (): 'success' | 'warning' | 'error' => {
     if (color !== 'primary') return color as any;
     if (percentage > 80) return 'error';
     if (percentage > 60) return 'warning';
@@ -86,11 +74,12 @@ const MetricBar: React.FC<{ value: number; max?: number; color?: string }> = ({
       <Typography variant="body2" sx={resourceTableStyles.metricValue}>
         {value}%
       </Typography>
-      <LinearProgress
+      <Progress
+        type="linear"
         variant="determinate"
         value={percentage}
         color={getColor()}
-        sx={resourceTableStyles.metricBar}
+        size="small"
       />
     </Box>
   );
@@ -227,7 +216,7 @@ export const ResourceTable: React.FC = () => {
       {/* Summary Cards */}
       <Grid container spacing={2} sx={resourceTableStyles.summaryCards}>
         <Grid item xs={6} sm={3}>
-          <Card sx={resourceTableStyles.summaryCard}>
+          <Card size="small">
             <Typography sx={resourceTableStyles.summaryValue} color="primary">
               {summaryStats.total}
             </Typography>
@@ -237,7 +226,7 @@ export const ResourceTable: React.FC = () => {
           </Card>
         </Grid>
         <Grid item xs={6} sm={3}>
-          <Card sx={resourceTableStyles.summaryCard}>
+          <Card size="small">
             <Typography sx={resourceTableStyles.summaryValue} color="success.main">
               {summaryStats.running}
             </Typography>
@@ -247,7 +236,7 @@ export const ResourceTable: React.FC = () => {
           </Card>
         </Grid>
         <Grid item xs={6} sm={3}>
-          <Card sx={resourceTableStyles.summaryCard}>
+          <Card size="small">
             <Typography sx={resourceTableStyles.summaryValue} color="warning.main">
               {summaryStats.warning}
             </Typography>
@@ -257,7 +246,7 @@ export const ResourceTable: React.FC = () => {
           </Card>
         </Grid>
         <Grid item xs={6} sm={3}>
-          <Card sx={resourceTableStyles.summaryCard}>
+          <Card size="small">
             <Typography sx={resourceTableStyles.summaryValue} color="error.main">
               {summaryStats.error}
             </Typography>
@@ -408,9 +397,8 @@ export const ResourceTable: React.FC = () => {
                 <TableCell>
                   <Chip
                     label={resource.status}
-                    color={getStatusColor(resource.status)}
+                    status={resource.status}
                     size="small"
-                    sx={resourceTableStyles.statusChip}
                   />
                 </TableCell>
                 <TableCell>
