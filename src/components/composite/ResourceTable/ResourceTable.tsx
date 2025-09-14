@@ -200,7 +200,7 @@ export const ResourceTable: React.FC = () => {
         <Grid item xs={12} sm={6} md={2.4}>
           <Card sx={{ 
             height: 160, 
-            background: 'white',
+            background: 'background.paper',
             color: 'text.primary',
             position: 'relative',
             overflow: 'hidden',
@@ -259,7 +259,7 @@ export const ResourceTable: React.FC = () => {
         <Grid item xs={12} sm={6} md={2.4}>
           <Card sx={{ 
             height: 160, 
-            background: 'white',
+            background: 'background.paper',
             color: 'text.primary',
             position: 'relative',
             overflow: 'hidden',
@@ -321,7 +321,7 @@ export const ResourceTable: React.FC = () => {
         <Grid item xs={12} sm={6} md={2.4}>
           <Card sx={{ 
             height: 160, 
-            background: 'white',
+            background: 'background.paper',
             color: 'text.primary',
             position: 'relative',
             overflow: 'hidden',
@@ -406,7 +406,7 @@ export const ResourceTable: React.FC = () => {
         <Grid item xs={12} sm={6} md={2.4}>
           <Card sx={{ 
             height: 160, 
-            background: 'white',
+            background: 'background.paper',
             color: 'text.primary',
             position: 'relative',
             overflow: 'hidden',
@@ -491,7 +491,7 @@ export const ResourceTable: React.FC = () => {
         <Grid item xs={12} sm={6} md={2.4}>
           <Card sx={{ 
             height: 160, 
-            background: 'white',
+            background: 'background.paper',
             color: 'text.primary',
             position: 'relative',
             overflow: 'hidden',
@@ -642,7 +642,7 @@ export const ResourceTable: React.FC = () => {
       {/* Resource Table */}
       <TableContainer component={Paper} sx={resourceTableStyles.tableContainer}>
         <Table>
-          <TableHead>
+          <TableHead sx={resourceTableStyles.tableHeader}>
             <TableRow>
               <TableCell sx={{ fontWeight: 700, fontSize: '0.875rem', width: '200px', maxWidth: '200px' }}>
                 <TableSortLabel
@@ -693,7 +693,7 @@ export const ResourceTable: React.FC = () => {
           </TableHead>
           <TableBody>
             {filteredResources.map((resource) => (
-              <TableRow key={resource.id} hover>
+              <TableRow key={resource.id} hover sx={resourceTableStyles.tableRow}>
                 <TableCell>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     {getResourceIcon(resource.type)}

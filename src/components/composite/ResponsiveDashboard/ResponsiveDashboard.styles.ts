@@ -24,7 +24,7 @@ export const responsiveDashboardStyles = {
   container: {
     py: 3,
     px: { xs: 2, sm: 3 },
-    backgroundColor: '#ffffff',
+    backgroundColor: 'background.default',
     minHeight: '100vh',
   },
   loadingBar: {
@@ -40,10 +40,10 @@ export const responsiveDashboardStyles = {
     justifyContent: 'space-between',
     mb: 3,
     p: 2,
-    backgroundColor: '#ffffff',
+    backgroundColor: 'background.paper',
     borderRadius: 2,
     border: '1px solid',
-    borderColor: '#e5e7eb',
+    borderColor: 'divider',
     boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
   },
   controls: {
@@ -78,9 +78,9 @@ export const responsiveDashboardStyles = {
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#ffffff',
+    backgroundColor: 'background.paper',
     border: '1px solid',
-    borderColor: '#e5e7eb',
+    borderColor: 'divider',
     boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
     transition: 'all 0.3s ease-in-out',
     '&:hover': {
@@ -92,9 +92,9 @@ export const responsiveDashboardStyles = {
     p: 3,
     borderRadius: 2,
     height: '100%',
-    backgroundColor: '#ffffff',
+    backgroundColor: 'background.paper',
     border: '1px solid',
-    borderColor: '#e5e7eb',
+    borderColor: 'divider',
     boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
     transition: 'all 0.3s ease-in-out',
     '&:hover': {

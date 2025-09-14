@@ -22,9 +22,6 @@ export const resourceTableStyles = {
   filterSelect: {
     minWidth: 120,
   },
-  tableContainer: {
-    mt: 2,
-  },
   metricCell: {
     display: 'flex',
     alignItems: 'center',
@@ -53,5 +50,37 @@ export const resourceTableStyles = {
   summaryLabel: {
     color: 'text.secondary',
     fontSize: '0.875rem',
+  },
+  tableContainer: {
+    mt: 2,
+    '& .MuiTableContainer-root': {
+      backgroundColor: 'background.paper',
+      border: '1px solid',
+      borderColor: 'divider',
+      borderRadius: 2,
+    },
+  },
+  tableHeader: {
+    backgroundColor: 'background.paper',
+    '& .MuiTableCell-head': {
+      backgroundColor: 'background.paper',
+      color: 'text.primary',
+      fontWeight: 600,
+      borderBottom: '1px solid',
+      borderBottomColor: 'divider',
+    },
+  },
+  tableRow: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: 'action.hover',
+    },
+    '&:hover': {
+      backgroundColor: 'action.selected',
+    },
+    '& .MuiTableCell-root': {
+      borderBottom: '1px solid',
+      borderBottomColor: 'divider',
+      color: 'text.primary',
+    },
   },
 };
