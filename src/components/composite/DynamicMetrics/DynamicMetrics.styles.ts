@@ -2,7 +2,7 @@ export const dynamicMetricsStyles = {
   container: {
     display: 'flex',
     flexDirection: 'column',
-    gap: 3,
+    gap: 3, // Consistent 24px spacing between all sections
   },
   emptyState: {
     display: 'flex',

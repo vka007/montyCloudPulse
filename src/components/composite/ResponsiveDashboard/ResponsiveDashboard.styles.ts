@@ -20,6 +20,7 @@ export const responsiveDashboardStyles = {
     flexDirection: 'column',
     overflowY: 'auto',
     p: 3,
+    gap: 3, // Consistent spacing between all sections
   },
   container: {
     py: 3,
@@ -38,7 +39,6 @@ export const responsiveDashboardStyles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    mb: 3,
     p: 2,
     backgroundColor: 'background.paper',
     borderRadius: 2,

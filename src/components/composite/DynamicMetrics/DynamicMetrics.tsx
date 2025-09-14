@@ -82,7 +82,6 @@ export const DynamicMetrics: React.FC<DynamicMetricsProps> = ({
           
           <Box sx={dynamicMetricsStyles.costSummary}>
             <Box sx={dynamicMetricsStyles.costItem}>
-              <AttachMoney color="primary" />
               <Box>
                 <Typography variant="h6" color="primary.main">
                   ${aggregatedMetrics.totalCost.toFixed(1)}
@@ -106,7 +105,7 @@ export const DynamicMetrics: React.FC<DynamicMetricsProps> = ({
       </Paper>
 
       {/* Key Metrics Cards */}
-      <Grid container spacing={3} sx={{ mb: 3 }}>
+      <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={3}>
           <MetricCard
             data={{
