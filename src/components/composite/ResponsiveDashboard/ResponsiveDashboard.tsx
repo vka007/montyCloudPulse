@@ -6,26 +6,15 @@ import {
   Typography,
   Tabs,
   Tab,
-  IconButton,
-  Menu,
-  MenuItem,
-  Tooltip,
   Alert,
   Snackbar,
   LinearProgress,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
 } from '@mui/material';
+import { useSnackbar } from 'notistack';
 import {
   Dashboard as DashboardIcon,
   Storage as StorageIcon,
   NetworkCheck as NetworkIcon,
-  FilterList as FilterIcon,
-  Settings as SettingsIcon,
-  Close as CloseIcon,
 } from '@mui/icons-material';
 import { 
   CPUTrendChart, 
@@ -41,6 +30,8 @@ import {
   getAvailableResourceTypes,
 } from '@/data/enhancedMockData';
 import { responsiveDashboardStyles } from './ResponsiveDashboard.styles';
+import { NotificationService } from '@/services/notificationService';
+import { useNotificationStore } from '@/store/notificationStore';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -75,9 +66,10 @@ export const ResponsiveDashboard: React.FC = () => {
   } = useEnhancedResourceStore();
   
   const [tabValue, setTabValue] = useState(0);
-  const [filterAnchor, setFilterAnchor] = useState<null | HTMLElement>(null);
-  const [settingsOpen, setSettingsOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
+  const [shownNotifications, setShownNotifications] = useState<Set<string>>(new Set());
+  const { enqueueSnackbar } = useSnackbar();
+  const notificationService = NotificationService.getInstance();
   
   // Resource selection state
   const [selectedResource, setSelectedResource] = useState<string>('all');
@@ -92,13 +84,6 @@ export const ResponsiveDashboard: React.FC = () => {
     setTabValue(newValue);
   };
 
-  const handleFilterClick = (event: React.MouseEvent<HTMLElement>) => {
-    setFilterAnchor(event.currentTarget);
-  };
-
-  const handleFilterClose = () => {
-    setFilterAnchor(null);
-  };
 
 
   const handleAlertClose = () => {
@@ -166,8 +151,54 @@ export const ResponsiveDashboard: React.FC = () => {
     // Cleanup on unmount
     return () => {
       stopRealTimeUpdates();
+      notificationService.stopSimulation();
     };
   }, []); // Empty dependency array - only run once on mount
+
+  // Start notification simulation when resources are available (only once)
+  React.useEffect(() => {
+    if (resources.length > 0) {
+      // Stop any existing simulation first
+      notificationService.stopSimulation();
+      
+      // Clear any existing notifications to start fresh
+      useNotificationStore.getState().clearAllNotifications();
+      
+      // Start the notification simulation (this will generate the first notification after 20-25 seconds)
+      notificationService.startSimulation(resources);
+      
+      // DO NOT check for immediate spikes - let notifications start from zero
+    }
+    
+    return () => {
+      notificationService.stopSimulation();
+    };
+  }, [resources.length]); // Only depend on resources.length, not the entire resources array
+
+  // Listen for new notifications and show snackbar alerts
+  React.useEffect(() => {
+    const unsubscribe = useNotificationStore.subscribe((state: any) => {
+      const latestNotification = state.notifications[0];
+      if (latestNotification && 
+          !latestNotification.read && 
+          !shownNotifications.has(latestNotification.id)) {
+        
+        // Mark this notification as shown
+        setShownNotifications(prev => new Set(prev).add(latestNotification.id));
+        
+        // Show snackbar notification
+        const severity = latestNotification.severity === 'critical' ? 'error' : 
+                        latestNotification.severity === 'high' ? 'warning' : 'info';
+        
+        enqueueSnackbar(latestNotification.message, {
+          variant: severity,
+          autoHideDuration: 5000,
+        });
+      }
+    });
+
+    return unsubscribe;
+  }, [enqueueSnackbar]); // Remove shownNotifications from dependencies to prevent recreation
 
   return (
     <Box sx={responsiveDashboardStyles.dashboardLayout}>
@@ -226,19 +257,6 @@ export const ResponsiveDashboard: React.FC = () => {
             />
           </Tabs>
           
-          <Box sx={responsiveDashboardStyles.controls}>
-            <Tooltip title="Filter Metrics">
-              <IconButton onClick={handleFilterClick}>
-                <FilterIcon />
-              </IconButton>
-            </Tooltip>
-            
-            <Tooltip title="Settings">
-              <IconButton onClick={() => setSettingsOpen(true)}>
-                <SettingsIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
         </Box>
 
         {/* Tab Panels */}
@@ -326,46 +344,6 @@ export const ResponsiveDashboard: React.FC = () => {
       </TabPanel>
       </Box>
 
-      {/* Filter Menu */}
-      <Menu
-        anchorEl={filterAnchor}
-        open={Boolean(filterAnchor)}
-        onClose={handleFilterClose}
-      >
-        <MenuItem onClick={handleFilterClose}>All Metrics</MenuItem>
-        <MenuItem onClick={handleFilterClose}>CPU Only</MenuItem>
-        <MenuItem onClick={handleFilterClose}>Memory Only</MenuItem>
-        <MenuItem onClick={handleFilterClose}>Network Only</MenuItem>
-      </Menu>
-
-      {/* Settings Dialog */}
-      <Dialog
-        open={settingsOpen}
-        onClose={() => setSettingsOpen(false)}
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle>
-          Dashboard Settings
-          <IconButton
-            aria-label="close"
-            onClick={() => setSettingsOpen(false)}
-            sx={{ position: 'absolute', right: 8, top: 8 }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <Typography variant="body2" color="text.secondary">
-            Configure your dashboard preferences, alert thresholds, and data refresh intervals.
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setSettingsOpen(false)} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
 
       {/* Alert Snackbar */}
       <Snackbar

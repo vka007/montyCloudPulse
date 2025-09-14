@@ -46,11 +46,6 @@ export const responsiveDashboardStyles = {
     borderColor: 'divider',
     boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
   },
-  controls: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 1,
-  },
   tabs: {
     '& .MuiTab-root': {
       minHeight: 48,
