@@ -6,7 +6,7 @@ import {
   Typography,
   Container,
 } from '@mui/material';
-import { ThemeToggle } from './ThemeToggle';
+import { ThemeToggle } from '@/components/common/ThemeToggle';
 import { layoutStyles } from './Layout.styles';
 
 interface LayoutProps {
