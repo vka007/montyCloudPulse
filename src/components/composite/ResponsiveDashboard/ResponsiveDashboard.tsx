@@ -10,7 +10,6 @@ import {
   Snackbar,
   LinearProgress,
 } from '@mui/material';
-import { useSnackbar } from 'notistack';
 import {
   Dashboard as DashboardIcon,
   Storage as StorageIcon,
@@ -30,8 +29,6 @@ import {
   getAvailableResourceTypes,
 } from '@/data/enhancedMockData';
 import { responsiveDashboardStyles } from './ResponsiveDashboard.styles';
-import { NotificationService } from '@/services/notificationService';
-import { useNotificationStore } from '@/store/notificationStore';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -67,9 +64,6 @@ export const ResponsiveDashboard: React.FC = () => {
   
   const [tabValue, setTabValue] = useState(0);
   const [alertOpen, setAlertOpen] = useState(false);
-  const [shownNotifications, setShownNotifications] = useState<Set<string>>(new Set());
-  const { enqueueSnackbar } = useSnackbar();
-  const notificationService = NotificationService.getInstance();
   
   // Resource selection state
   const [selectedResource, setSelectedResource] = useState<string>('all');
@@ -151,54 +145,9 @@ export const ResponsiveDashboard: React.FC = () => {
     // Cleanup on unmount
     return () => {
       stopRealTimeUpdates();
-      notificationService.stopSimulation();
     };
   }, []); // Empty dependency array - only run once on mount
 
-  // Start notification simulation when resources are available (only once)
-  React.useEffect(() => {
-    if (resources.length > 0) {
-      // Stop any existing simulation first
-      notificationService.stopSimulation();
-      
-      // Clear any existing notifications to start fresh
-      useNotificationStore.getState().clearAllNotifications();
-      
-      // Start the notification simulation (this will generate the first notification after 20-25 seconds)
-      notificationService.startSimulation(resources);
-      
-      // DO NOT check for immediate spikes - let notifications start from zero
-    }
-    
-    return () => {
-      notificationService.stopSimulation();
-    };
-  }, [resources.length]); // Only depend on resources.length, not the entire resources array
-
-  // Listen for new notifications and show snackbar alerts
-  React.useEffect(() => {
-    const unsubscribe = useNotificationStore.subscribe((state: any) => {
-      const latestNotification = state.notifications[0];
-      if (latestNotification && 
-          !latestNotification.read && 
-          !shownNotifications.has(latestNotification.id)) {
-        
-        // Mark this notification as shown
-        setShownNotifications(prev => new Set(prev).add(latestNotification.id));
-        
-        // Show snackbar notification
-        const severity = latestNotification.severity === 'critical' ? 'error' : 
-                        latestNotification.severity === 'high' ? 'warning' : 'info';
-        
-        enqueueSnackbar(latestNotification.message, {
-          variant: severity,
-          autoHideDuration: 5000,
-        });
-      }
-    });
-
-    return unsubscribe;
-  }, [enqueueSnackbar]); // Remove shownNotifications from dependencies to prevent recreation
 
   return (
     <Box sx={responsiveDashboardStyles.dashboardLayout}>
