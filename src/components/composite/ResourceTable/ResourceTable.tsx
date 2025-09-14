@@ -37,13 +37,12 @@ import {
 import { Card } from '@/components/base/Card/Card';
 import { Chip } from '@/components/base/Chip/Chip';
 import { Progress } from '@/components/base/Progress/Progress';
-import { useResourceStore } from '@/store/resourceStore';
-import { ResourceType } from '@/types/resources';
+import { useEnhancedResourceStore } from '@/store/enhancedResourceStore';
 import { FilterOptions, SortOptions } from '@/types/navigation';
 import { resourceTableStyles } from './ResourceTable.styles';
 
-const getResourceIcon = (type: ResourceType) => {
-  const iconMap = {
+const getResourceIcon = (type: string) => {
+  const iconMap: Record<string, React.ReactElement> = {
     ec2: <Cloud fontSize="small" />,
     rds: <Dataset fontSize="small" />,
     lambda: <Functions fontSize="small" />,
@@ -86,7 +85,12 @@ const MetricBar: React.FC<{ value: number; max?: number; color?: string }> = ({
 };
 
 export const ResourceTable: React.FC = () => {
-  const { resources, loading, refreshData } = useResourceStore();
+  const { resources, loading, initializeIfNeeded } = useEnhancedResourceStore();
+  
+  // Initialize data if needed
+  React.useEffect(() => {
+    initializeIfNeeded();
+  }, [initializeIfNeeded]);
   
   const [filters, setFilters] = useState<FilterOptions>({
     search: '',
@@ -162,8 +166,8 @@ export const ResourceTable: React.FC = () => {
           bValue = b.region;
           break;
         case 'lastUpdated':
-          aValue = a.lastUpdated.getTime();
-          bValue = b.lastUpdated.getTime();
+          aValue = new Date(a.lastUpdated).getTime();
+          bValue = new Date(b.lastUpdated).getTime();
           break;
         default:
           return 0;
@@ -203,11 +207,18 @@ export const ResourceTable: React.FC = () => {
 
   // Summary statistics
   const summaryStats = useMemo(() => {
+    const totalCost = Math.round(filteredResources.reduce((sum, resource) => sum + resource.cost.monthly, 0) * 10) / 10;
+    const avgCpu = Math.round(filteredResources.reduce((sum, resource) => sum + resource.metrics.cpu.current, 0) / filteredResources.length * 10) / 10;
+    const avgMemory = Math.round(filteredResources.reduce((sum, resource) => sum + resource.metrics.memory.percentage, 0) / filteredResources.length * 10) / 10;
+    
     return {
       total: filteredResources.length,
       running: filteredResources.filter(r => r.status === 'running').length,
       warning: filteredResources.filter(r => r.status === 'warning').length,
       error: filteredResources.filter(r => r.status === 'error').length,
+      totalCost,
+      avgCpu,
+      avgMemory,
     };
   }, [filteredResources]);
 
@@ -252,6 +263,40 @@ export const ResourceTable: React.FC = () => {
             </Typography>
             <Typography sx={resourceTableStyles.summaryLabel}>
               Error
+            </Typography>
+          </Card>
+        </Grid>
+      </Grid>
+
+      {/* Cost and Performance Summary */}
+      <Grid container spacing={2} sx={{ mb: 3 }}>
+        <Grid item xs={12} sm={4}>
+          <Card size="small">
+            <Typography sx={resourceTableStyles.summaryValue} color="primary.main">
+              ${summaryStats.totalCost}
+            </Typography>
+            <Typography sx={resourceTableStyles.summaryLabel}>
+              Total Monthly Cost
+            </Typography>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Card size="small">
+            <Typography sx={resourceTableStyles.summaryValue} color="info.main">
+              {summaryStats.avgCpu}%
+            </Typography>
+            <Typography sx={resourceTableStyles.summaryLabel}>
+              Average CPU Usage
+            </Typography>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Card size="small">
+            <Typography sx={resourceTableStyles.summaryValue} color="warning.main">
+              {summaryStats.avgMemory}%
+            </Typography>
+            <Typography sx={resourceTableStyles.summaryLabel}>
+              Average Memory Usage
             </Typography>
           </Card>
         </Grid>
@@ -322,8 +367,24 @@ export const ResourceTable: React.FC = () => {
             </Select>
           </FormControl>
 
+          <FormControl sx={resourceTableStyles.filterSelect}>
+            <InputLabel>Account</InputLabel>
+            <Select
+              multiple
+              value={filters.account}
+              onChange={(e) => handleFilterChange('account', e.target.value)}
+              label="Account"
+            >
+              {filterOptions.accounts.map(account => (
+                <MenuItem key={account} value={account}>
+                  {account}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
           <Tooltip title="Refresh Data">
-            <IconButton onClick={refreshData} disabled={loading}>
+            <IconButton onClick={initializeIfNeeded} disabled={loading}>
               <Refresh />
             </IconButton>
           </Tooltip>
@@ -366,6 +427,7 @@ export const ResourceTable: React.FC = () => {
               <TableCell>CPU</TableCell>
               <TableCell>Memory</TableCell>
               <TableCell>Network</TableCell>
+              <TableCell>Monthly Cost</TableCell>
               <TableCell>
                 <TableSortLabel
                   active={sortOptions.field === 'lastUpdated'}
@@ -419,12 +481,17 @@ export const ResourceTable: React.FC = () => {
                 </TableCell>
                 <TableCell>
                   <Typography variant="body2">
-                    {Math.round((resource.metrics.network.inbound + resource.metrics.network.outbound) / 1024)} MB/s
+                    {Math.round((resource.metrics.network.inbound + resource.metrics.network.outbound) * 10) / 10} MB/s
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="body2" color="primary.main" fontWeight={500}>
+                    ${Math.round(resource.cost.monthly * 10) / 10}
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography variant="body2" color="text.secondary">
-                    {resource.lastUpdated.toLocaleTimeString()}
+                    {new Date(resource.lastUpdated).toLocaleTimeString()}
                   </Typography>
                 </TableCell>
                 <TableCell>
