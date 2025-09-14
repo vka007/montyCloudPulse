@@ -6,26 +6,14 @@ import {
   Typography,
   Tabs,
   Tab,
-  IconButton,
-  Menu,
-  MenuItem,
-  Tooltip,
   Alert,
   Snackbar,
   LinearProgress,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
 } from '@mui/material';
 import {
   Dashboard as DashboardIcon,
   Storage as StorageIcon,
   NetworkCheck as NetworkIcon,
-  FilterList as FilterIcon,
-  Settings as SettingsIcon,
-  Close as CloseIcon,
 } from '@mui/icons-material';
 import { 
   CPUTrendChart, 
@@ -75,8 +63,6 @@ export const ResponsiveDashboard: React.FC = () => {
   } = useEnhancedResourceStore();
   
   const [tabValue, setTabValue] = useState(0);
-  const [filterAnchor, setFilterAnchor] = useState<null | HTMLElement>(null);
-  const [settingsOpen, setSettingsOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   
   // Resource selection state
@@ -92,13 +78,6 @@ export const ResponsiveDashboard: React.FC = () => {
     setTabValue(newValue);
   };
 
-  const handleFilterClick = (event: React.MouseEvent<HTMLElement>) => {
-    setFilterAnchor(event.currentTarget);
-  };
-
-  const handleFilterClose = () => {
-    setFilterAnchor(null);
-  };
 
 
   const handleAlertClose = () => {
@@ -169,6 +148,7 @@ export const ResponsiveDashboard: React.FC = () => {
     };
   }, []); // Empty dependency array - only run once on mount
 
+
   return (
     <Box sx={responsiveDashboardStyles.dashboardLayout}>
       {/* Left Sidebar - Resource Filter */}
@@ -226,19 +206,6 @@ export const ResponsiveDashboard: React.FC = () => {
             />
           </Tabs>
           
-          <Box sx={responsiveDashboardStyles.controls}>
-            <Tooltip title="Filter Metrics">
-              <IconButton onClick={handleFilterClick}>
-                <FilterIcon />
-              </IconButton>
-            </Tooltip>
-            
-            <Tooltip title="Settings">
-              <IconButton onClick={() => setSettingsOpen(true)}>
-                <SettingsIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
         </Box>
 
         {/* Tab Panels */}
@@ -326,46 +293,6 @@ export const ResponsiveDashboard: React.FC = () => {
       </TabPanel>
       </Box>
 
-      {/* Filter Menu */}
-      <Menu
-        anchorEl={filterAnchor}
-        open={Boolean(filterAnchor)}
-        onClose={handleFilterClose}
-      >
-        <MenuItem onClick={handleFilterClose}>All Metrics</MenuItem>
-        <MenuItem onClick={handleFilterClose}>CPU Only</MenuItem>
-        <MenuItem onClick={handleFilterClose}>Memory Only</MenuItem>
-        <MenuItem onClick={handleFilterClose}>Network Only</MenuItem>
-      </Menu>
-
-      {/* Settings Dialog */}
-      <Dialog
-        open={settingsOpen}
-        onClose={() => setSettingsOpen(false)}
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle>
-          Dashboard Settings
-          <IconButton
-            aria-label="close"
-            onClick={() => setSettingsOpen(false)}
-            sx={{ position: 'absolute', right: 8, top: 8 }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <Typography variant="body2" color="text.secondary">
-            Configure your dashboard preferences, alert thresholds, and data refresh intervals.
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setSettingsOpen(false)} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
 
       {/* Alert Snackbar */}
       <Snackbar

@@ -16,3 +16,6 @@ export type { ChartProps } from './Chart/Chart';
 
 export { EChart } from './EChart/EChart';
 export type { EChartProps } from './EChart/EChart';
+
+export { Notistack } from './Notistack/Notistack';
+export { notistackStyles } from './Notistack/Notistack.styles';
