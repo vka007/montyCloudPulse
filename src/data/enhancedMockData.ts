@@ -1,3 +1,5 @@
+import { additionalResources } from './additionalResources';
+
 export interface EnhancedResource {
   id: string;
   name: string;
@@ -283,6 +285,331 @@ export const enhancedMockResources: EnhancedResource[] = [
     },
     lastUpdated: new Date(),
   },
+  
+  // Additional EC2 Instances
+  {
+    id: 'i-0a1b2c3d4e5f6789a',
+    name: 'web-server-prod-02',
+    type: 'ec2',
+    status: 'running',
+    region: 'us-west-2',
+    account: 'prod-account',
+    instanceType: 't3.xlarge',
+    cost: {
+      hourly: 0.1664,
+      daily: 3.994,
+      monthly: 119.808,
+      currency: 'USD',
+    },
+    metrics: {
+      cpu: {
+        current: 28.5,
+        average: 32.1,
+        max: 45.2,
+        history: Array.from({ length: 24 }, (_, i) => Math.round((Math.random() * 25 + 25 + Math.sin(i * 0.4) * 10) * 10) / 10),
+      },
+      memory: {
+        current: 6.2,
+        percentage: 62,
+        total: 10,
+        history: Array.from({ length: 24 }, (_, i) => Math.round((Math.random() * 15 + 55 + Math.cos(i * 0.3) * 10) * 10) / 10),
+      },
+      network: {
+        inbound: 45.3,
+        outbound: 78.9,
+        history: Array.from({ length: 24 }, (_, i) => ({
+          time: `${i}:00`,
+          inbound: Math.round((Math.random() * 30 + 35) * 10) / 10,
+          outbound: Math.round((Math.random() * 40 + 60) * 10) / 10,
+        })),
+      },
+    },
+    tags: {
+      Environment: 'production',
+      Team: 'frontend',
+      Project: 'web-app',
+    },
+    lastUpdated: new Date(),
+  },
+  {
+    id: 'i-0b2c3d4e5f6789ab',
+    name: 'api-gateway-dev',
+    type: 'ec2',
+    status: 'running',
+    region: 'eu-west-1',
+    account: 'dev-account',
+    instanceType: 't3.medium',
+    cost: {
+      hourly: 0.0416,
+      daily: 0.998,
+      monthly: 29.952,
+      currency: 'USD',
+    },
+    metrics: {
+      cpu: {
+        current: 15.8,
+        average: 18.3,
+        max: 28.7,
+        history: Array.from({ length: 24 }, (_, i) => Math.round((Math.random() * 20 + 10 + Math.sin(i * 0.6) * 8) * 10) / 10),
+      },
+      memory: {
+        current: 1.8,
+        percentage: 36,
+        total: 5,
+        history: Array.from({ length: 24 }, (_, i) => Math.round((Math.random() * 20 + 25 + Math.cos(i * 0.4) * 12) * 10) / 10),
+      },
+      network: {
+        inbound: 12.4,
+        outbound: 18.7,
+        history: Array.from({ length: 24 }, (_, i) => ({
+          time: `${i}:00`,
+          inbound: Math.round((Math.random() * 15 + 8) * 10) / 10,
+          outbound: Math.round((Math.random() * 20 + 12) * 10) / 10,
+        })),
+      },
+    },
+    tags: {
+      Environment: 'development',
+      Team: 'backend',
+      Project: 'api-services',
+    },
+    lastUpdated: new Date(),
+  },
+  {
+    id: 'i-0c3d4e5f6789abc',
+    name: 'cache-redis-staging',
+    type: 'ec2',
+    status: 'running',
+    region: 'ap-southeast-1',
+    account: 'staging-account',
+    instanceType: 'r5.large',
+    cost: {
+      hourly: 0.126,
+      daily: 3.024,
+      monthly: 90.72,
+      currency: 'USD',
+    },
+    metrics: {
+      cpu: {
+        current: 42.1,
+        average: 38.7,
+        max: 55.3,
+        history: Array.from({ length: 24 }, (_, i) => Math.round((Math.random() * 30 + 30 + Math.sin(i * 0.5) * 15) * 10) / 10),
+      },
+      memory: {
+        current: 8.5,
+        percentage: 85,
+        total: 10,
+        history: Array.from({ length: 24 }, (_, i) => Math.round((Math.random() * 10 + 75 + Math.cos(i * 0.35) * 8) * 10) / 10),
+      },
+      network: {
+        inbound: 25.6,
+        outbound: 32.1,
+        history: Array.from({ length: 24 }, (_, i) => ({
+          time: `${i}:00`,
+          inbound: Math.round((Math.random() * 20 + 20) * 10) / 10,
+          outbound: Math.round((Math.random() * 25 + 25) * 10) / 10,
+        })),
+      },
+    },
+    tags: {
+      Environment: 'staging',
+      Team: 'infrastructure',
+      Project: 'caching',
+    },
+    lastUpdated: new Date(),
+  },
+  
+  // Additional RDS Instances
+  {
+    id: 'db-EFGHIJKLMNOPQRST',
+    name: 'analytics-db-prod',
+    type: 'rds',
+    status: 'running',
+    region: 'us-east-2',
+    account: 'prod-account',
+    instanceType: 'db.r5.2xlarge',
+    cost: {
+      hourly: 0.69,
+      daily: 16.56,
+      monthly: 496.8,
+      currency: 'USD',
+    },
+    metrics: {
+      cpu: {
+        current: 55.2,
+        average: 48.7,
+        max: 72.1,
+        history: Array.from({ length: 24 }, (_, i) => Math.round((Math.random() * 35 + 40 + Math.sin(i * 0.3) * 20) * 10) / 10),
+      },
+      memory: {
+        current: 24.8,
+        percentage: 78,
+        total: 32,
+        history: Array.from({ length: 24 }, (_, i) => Math.round((Math.random() * 15 + 65 + Math.cos(i * 0.25) * 10) * 10) / 10),
+      },
+      network: {
+        inbound: 156.7,
+        outbound: 234.5,
+        history: Array.from({ length: 24 }, (_, i) => ({
+          time: `${i}:00`,
+          inbound: Math.round((Math.random() * 80 + 120) * 10) / 10,
+          outbound: Math.round((Math.random() * 100 + 180) * 10) / 10,
+        })),
+      },
+      storage: {
+        used: 850,
+        total: 2000,
+        iops: 6000,
+      },
+    },
+    tags: {
+      Environment: 'production',
+      Team: 'analytics',
+      Project: 'data-warehouse',
+    },
+    lastUpdated: new Date(),
+  },
+  {
+    id: 'db-GHIJKLMNOPQRSTUV',
+    name: 'user-sessions-dev',
+    type: 'rds',
+    status: 'running',
+    region: 'eu-central-1',
+    account: 'dev-account',
+    instanceType: 'db.t3.medium',
+    cost: {
+      hourly: 0.052,
+      daily: 1.248,
+      monthly: 37.44,
+      currency: 'USD',
+    },
+    metrics: {
+      cpu: {
+        current: 22.4,
+        average: 25.8,
+        max: 38.9,
+        history: Array.from({ length: 24 }, (_, i) => Math.round((Math.random() * 20 + 20 + Math.sin(i * 0.4) * 12) * 10) / 10),
+      },
+      memory: {
+        current: 1.8,
+        percentage: 36,
+        total: 5,
+        history: Array.from({ length: 24 }, (_, i) => Math.round((Math.random() * 15 + 25 + Math.cos(i * 0.3) * 10) * 10) / 10),
+      },
+      network: {
+        inbound: 23.4,
+        outbound: 31.7,
+        history: Array.from({ length: 24 }, (_, i) => ({
+          time: `${i}:00`,
+          inbound: Math.round((Math.random() * 15 + 15) * 10) / 10,
+          outbound: Math.round((Math.random() * 20 + 20) * 10) / 10,
+        })),
+      },
+      storage: {
+        used: 120,
+        total: 500,
+        iops: 1000,
+      },
+    },
+    tags: {
+      Environment: 'development',
+      Team: 'backend',
+      Project: 'user-management',
+    },
+    lastUpdated: new Date(),
+  },
+  
+  // Lambda Functions
+  {
+    id: 'lambda-func-002',
+    name: 'email-processor',
+    type: 'lambda',
+    status: 'running',
+    region: 'us-west-1',
+    account: 'prod-account',
+    cost: {
+      hourly: 0.0001,
+      daily: 0.0024,
+      monthly: 0.072,
+      currency: 'USD',
+    },
+    metrics: {
+      cpu: {
+        current: 5.2,
+        average: 4.8,
+        max: 12.3,
+        history: Array.from({ length: 24 }, (_, i) => Math.round((Math.random() * 8 + 2 + Math.sin(i * 0.8) * 4) * 10) / 10),
+      },
+      memory: {
+        current: 0.3,
+        percentage: 15,
+        total: 2,
+        history: Array.from({ length: 24 }, (_, i) => Math.round((Math.random() * 10 + 10 + Math.cos(i * 0.6) * 5) * 10) / 10),
+      },
+      network: {
+        inbound: 0.5,
+        outbound: 1.2,
+        history: Array.from({ length: 24 }, (_, i) => ({
+          time: `${i}:00`,
+          inbound: Math.round((Math.random() * 1 + 0.2) * 10) / 10,
+          outbound: Math.round((Math.random() * 2 + 0.5) * 10) / 10,
+        })),
+      },
+    },
+    tags: {
+      Environment: 'production',
+      Team: 'notifications',
+      Project: 'email-service',
+    },
+    lastUpdated: new Date(),
+  },
+  {
+    id: 'lambda-func-003',
+    name: 'data-transformer',
+    type: 'lambda',
+    status: 'running',
+    region: 'ap-northeast-1',
+    account: 'staging-account',
+    cost: {
+      hourly: 0.0002,
+      daily: 0.0048,
+      monthly: 0.144,
+      currency: 'USD',
+    },
+    metrics: {
+      cpu: {
+        current: 8.7,
+        average: 7.2,
+        max: 18.5,
+        history: Array.from({ length: 24 }, (_, i) => Math.round((Math.random() * 12 + 4 + Math.sin(i * 0.7) * 6) * 10) / 10),
+      },
+      memory: {
+        current: 0.6,
+        percentage: 30,
+        total: 2,
+        history: Array.from({ length: 24 }, (_, i) => Math.round((Math.random() * 15 + 20 + Math.cos(i * 0.5) * 8) * 10) / 10),
+      },
+      network: {
+        inbound: 1.8,
+        outbound: 2.4,
+        history: Array.from({ length: 24 }, (_, i) => ({
+          time: `${i}:00`,
+          inbound: Math.round((Math.random() * 2 + 1) * 10) / 10,
+          outbound: Math.round((Math.random() * 3 + 1.5) * 10) / 10,
+        })),
+      },
+    },
+    tags: {
+      Environment: 'staging',
+      Team: 'data',
+      Project: 'etl-pipeline',
+    },
+    lastUpdated: new Date(),
+  },
+  
+  // Add 50 additional resources
+  ...additionalResources,
 ];
 
 export const getResourcesByType = (type: string) => {
