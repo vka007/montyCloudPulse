@@ -1,5 +1,5 @@
 import React from 'react';
-import { SnackbarProvider, SnackbarProviderProps } from 'notistack';
+import { SnackbarProvider, SnackbarProviderProps, closeSnackbar } from 'notistack';
 import { useTheme } from '@mui/material/styles';
 import './Notistack.css';
 
@@ -49,11 +49,9 @@ export const Notistack: React.FC<NotistackProps> = ({
     dense: false,
     preventDuplicate,
     // Enable close action
-    action: () => (
+    action: (key) => (
       <button
-        onClick={() => {
-          // This will be handled by notistack automatically
-        }}
+        onClick={() => closeSnackbar(key)}
         style={{
           background: 'none',
           border: 'none',
@@ -61,6 +59,14 @@ export const Notistack: React.FC<NotistackProps> = ({
           fontSize: '18px',
           cursor: 'pointer',
           padding: '0 8px',
+          borderRadius: '4px',
+          transition: 'background-color 0.2s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = 'transparent';
         }}
       >
         ×
