@@ -92,33 +92,40 @@ src/
 │   ├── base/           # Atomic, reusable UI components
 │   │   ├── Button/     # Custom button with loading states
 │   │   ├── Card/       # Flexible card container
-│   │   ├── Chip/       # Status indicators and tags
-│   │   ├── Progress/   # Progress bars and indicators
 │   │   ├── Chart/      # Highcharts wrapper
-│   │   └── Notistack/  # Notification system
-│   ├── composite/      # Complex components using base components
-│   │   ├── MetricCard/ # Metric display with charts
-│   │   ├── DashboardGrid/ # Dashboard layout orchestration
-│   │   ├── ResourceTable/ # Advanced resource management
-│   │   └── ResponsiveDashboard/ # Responsive dashboard wrapper
-│   ├── common/         # Shared components
-│   │   ├── Navigation/ # Main navigation
-│   │   ├── SidebarLayout/ # Sidebar layout wrapper
-│   │   └── ThemeToggle/ # Theme switching
-│   ├── layout/         # Layout components
-│   └── providers/      # Context providers
+│   │   ├── Charts/     # Chart components collection
+│   │   ├── Chip/       # Status indicators and tags
+│   │   ├── EChart/     # ECharts wrapper
+│   │   ├── Notistack/  # Notification system
+│   │   └── Progress/   # Progress bars and indicators
+│   └── common/         # Shared layout components
+│       ├── ApplicationHeader/ # Top navigation with notifications
+│       ├── DashboardHeader/   # Page-specific headers
+│       └── SidebarLayout/     # Sidebar layout wrapper
 ├── pages/              # Main page components
 │   ├── Dashboard/      # Dashboard page
+│   │   └── components/ # Dashboard-specific components
+│   │       ├── DashboardGrid/ # Dashboard layout orchestration
+│   │       ├── DynamicMetrics/ # Dynamic metrics display
+│   │       ├── MetricCard/    # Metric display with charts
+│   │       └── ResponsiveDashboard/ # Responsive dashboard wrapper
 │   └── Inventory/      # Resource inventory page
+│       └── components/ # Inventory-specific components
+│           ├── ResourceSelector/ # Multi-select dropdown
+│           └── ResourceTable/   # Advanced resource management
+├── layout/             # Application layout system
+├── navigation/         # Navigation system
+├── notification/       # Notification system
+├── theme/              # Theme system with ThemeToggle
 ├── hooks/              # Custom React hooks
 ├── store/              # Zustand state management
 │   ├── resourceStore.ts # Resource data management
+│   ├── enhancedResourceStore.ts # Enhanced resource data
 │   ├── themeStore.ts   # Theme state management
 │   └── notificationStore.ts # Notification state
+├── dataFactory/        # Mock data and generators
 ├── types/              # TypeScript type definitions
-├── data/               # Mock data and generators
-├── services/           # Business logic services
-└── theme/              # MUI theme configuration
+└── utils/              # Utility functions
 ```
 
 ## 🎯 Key Components
@@ -126,16 +133,34 @@ src/
 ### Base Components (Atomic Level)
 - **Button**: Custom button with loading states and variants
 - **Card**: Flexible container with hover effects and size options
-- **Chip**: Status indicators with semantic coloring
-- **Progress**: Linear and circular progress indicators
 - **Chart**: Highcharts wrapper for consistent data visualization
+- **Charts**: Collection of specialized chart components (CPU, Memory, Network, etc.)
+- **Chip**: Status indicators with semantic coloring
+- **EChart**: ECharts wrapper for advanced visualizations
+- **Progress**: Linear and circular progress indicators
 - **Notistack**: Enhanced notification system
 
-### Composite Components
+### Page-Specific Components
+#### Dashboard Components
 - **MetricCard**: Displays key metrics with sparkline charts and trends
 - **DashboardGrid**: Orchestrates multiple metric cards with real-time updates
-- **ResourceTable**: Advanced table with filtering, sorting, and resource management
 - **ResponsiveDashboard**: Responsive wrapper for mobile-optimized layouts
+- **DynamicMetrics**: Dynamic metrics display with real-time updates
+
+#### Inventory Components
+- **ResourceTable**: Advanced table with filtering, sorting, and resource management
+- **ResourceSelector**: Multi-select dropdown with search and filtering
+
+### Common Components (Shared Layout)
+- **ApplicationHeader**: Top navigation with notifications and user menu
+- **DashboardHeader**: Page-specific headers with breadcrumbs and actions
+- **SidebarLayout**: Sidebar navigation with tabs and layout structure
+
+### System Components
+- **Layout**: Main application layout wrapper
+- **Navigation**: Primary navigation component with routing logic
+- **ThemeToggle**: Theme switching functionality
+- **NotificationProvider**: Context provider for notifications
 
 ### Page Components
 - **Dashboard**: Main overview with real-time metrics and performance indicators

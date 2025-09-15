@@ -21,72 +21,115 @@ src/
 │   │   ├── Card/
 │   │   │   ├── Card.tsx
 │   │   │   └── Card.styles.ts
-│   │   ├── Chip/
-│   │   │   ├── Chip.tsx
-│   │   │   └── Chip.styles.ts
-│   │   ├── Progress/
-│   │   │   ├── Progress.tsx
-│   │   │   └── Progress.styles.ts
 │   │   ├── Chart/
 │   │   │   ├── Chart.tsx
 │   │   │   └── Chart.styles.ts
+│   │   ├── Charts/
+│   │   │   ├── CPUTrendChart.tsx
+│   │   │   ├── GaugeChart.tsx
+│   │   │   ├── MemoryChart.tsx
+│   │   │   ├── NetworkTrafficChart.tsx
+│   │   │   ├── ServiceDistributionChart.tsx
+│   │   │   └── index.ts
+│   │   ├── Chip/
+│   │   │   ├── Chip.tsx
+│   │   │   └── Chip.styles.ts
+│   │   ├── EChart/
+│   │   │   ├── EChart.tsx
+│   │   │   └── EChart.styles.ts
 │   │   ├── Notistack/
 │   │   │   ├── Notistack.tsx
-│   │   │   └── Notistack.styles.ts
+│   │   │   ├── Notistack.styles.ts
+│   │   │   └── Notistack.css
+│   │   ├── Progress/
+│   │   │   ├── Progress.tsx
+│   │   │   └── Progress.styles.ts
 │   │   └── index.ts            # Barrel exports
-│   ├── composite/               # Complex components
-│   │   ├── MetricCard/
-│   │   │   ├── MetricCard.tsx
-│   │   │   └── MetricCard.styles.ts
-│   │   ├── DashboardGrid/
-│   │   │   ├── DashboardGrid.tsx
-│   │   │   └── DashboardGrid.styles.ts
-│   │   ├── ResourceTable/
-│   │   │   ├── ResourceTable.tsx
-│   │   │   └── ResourceTable.styles.ts
-│   │   ├── ResponsiveDashboard/
-│   │   │   ├── ResponsiveDashboard.tsx
-│   │   │   └── ResponsiveDashboard.styles.ts
-│   │   └── index.ts            # Barrel exports
-│   ├── common/                  # Shared components
-│   │   ├── Navigation/
-│   │   ├── SidebarLayout/
-│   │   └── ThemeToggle/
-│   ├── layout/                  # Layout components
-│   │   ├── Layout/
-│   │   │   ├── Layout.tsx
-│   │   │   └── Layout.styles.ts
-│   │   └── index.ts
-│   └── providers/               # Context providers
-│       └── NotificationProvider.tsx
+│   └── common/                  # Shared layout components
+│       ├── ApplicationHeader/
+│       │   ├── ApplicationHeader.tsx
+│       │   ├── ApplicationHeader.styles.ts
+│       │   └── index.ts
+│       ├── DashboardHeader/
+│       │   ├── DashboardHeader.tsx
+│       │   ├── DashboardHeader.styles.ts
+│       │   └── index.ts
+│       ├── SidebarLayout/
+│       │   ├── SidebarLayout.tsx
+│       │   ├── SidebarLayout.styles.ts
+│       │   └── index.ts
+│       └── index.ts
 ├── pages/
 │   ├── Dashboard/
-│   │   ├── index.tsx           # Main entry point
-│   │   ├── Dashboard.tsx       # Page component
-│   │   └── Dashboard.styles.ts
+│   │   ├── components/          # Dashboard-specific components
+│   │   │   ├── DashboardGrid/
+│   │   │   │   ├── DashboardGrid.tsx
+│   │   │   │   └── DashboardGrid.styles.ts
+│   │   │   ├── DynamicMetrics/
+│   │   │   │   ├── DynamicMetrics.tsx
+│   │   │   │   └── DynamicMetrics.styles.ts
+│   │   │   ├── MetricCard/
+│   │   │   │   ├── MetricCard.tsx
+│   │   │   │   └── MetricCard.styles.ts
+│   │   │   └── ResponsiveDashboard/
+│   │   │       ├── ResponsiveDashboard.tsx
+│   │   │       └── ResponsiveDashboard.styles.ts
+│   │   ├── Dashboard.tsx
+│   │   ├── Dashboard.styles.ts
+│   │   └── index.tsx
 │   └── Inventory/
-│       ├── index.tsx
+│       ├── components/          # Inventory-specific components
+│       │   ├── ResourceSelector/
+│       │   │   ├── ResourceSelector.tsx
+│       │   │   └── ResourceSelector.styles.ts
+│       │   └── ResourceTable/
+│       │       ├── ResourceTable.tsx
+│       │       └── ResourceTable.styles.ts
 │       ├── Inventory.tsx
-│       └── Inventory.styles.ts
+│       ├── Inventory.styles.ts
+│       └── index.tsx
+├── layout/                      # Application layout
+│   ├── Layout/
+│   │   ├── Layout.tsx
+│   │   └── Layout.styles.ts
+│   └── index.ts
+├── navigation/                  # Navigation system
+│   ├── Navigation/
+│   │   ├── Navigation.tsx
+│   │   ├── Navigation.styles.ts
+│   │   └── index.ts
+│   └── index.ts
+├── notification/                # Notification system
+│   ├── NotificationProvider.tsx
+│   ├── notificationService.ts
+│   └── index.ts
+├── theme/                       # Theme system
+│   ├── ThemeToggle/
+│   │   ├── ThemeToggle.tsx
+│   │   ├── ThemeToggle.styles.ts
+│   │   └── index.ts
+│   ├── styles/
+│   │   └── common.styles.ts
+│   ├── darkTheme.ts
+│   ├── lightTheme.ts
+│   └── index.ts
 ├── store/                       # Zustand state management
 │   ├── resourceStore.ts
+│   ├── enhancedResourceStore.ts
 │   ├── themeStore.ts
 │   └── notificationStore.ts
 ├── hooks/                       # Custom React hooks
 │   └── useTheme.ts
-├── services/                    # Business logic
-│   └── notificationService.ts
-├── data/                        # Mock data generators
+├── dataFactory/                 # Mock data generators
 │   ├── mockResources.ts
 │   ├── dataGenerator.ts
-│   └── enhancedMockData.ts
+│   ├── enhancedMockData.ts
+│   └── additionalResources.ts
 ├── types/                       # TypeScript definitions
 │   ├── resources.ts
 │   ├── common.ts
 │   └── navigation.ts
-└── theme/                       # MUI theme configuration
-    ├── lightTheme.ts
-    └── darkTheme.ts
+└── utils/                       # Utility functions
 ```
 
 ## Component Hierarchy
@@ -109,25 +152,41 @@ These are the fundamental building blocks used throughout the application:
 - **Chip**: Status indicators with semantic coloring
 - **Notistack**: Enhanced notification system integration
 
-### Composite Components
-Built using base components to create more complex functionality:
+### Page-Specific Components
+Components organized by page for better maintainability:
 
-#### Dashboard Components
+#### Dashboard Components (`src/pages/Dashboard/components/`)
 - **MetricCard**: Displays key metrics with Highcharts sparklines and trends
 - **DashboardGrid**: Grid layout for organizing metric cards with real-time updates
 - **ResponsiveDashboard**: Responsive wrapper for mobile-optimized layouts
-- **StatusOverview**: Resource status summary component
+- **DynamicMetrics**: Dynamic metrics display with real-time updates
 
-#### Inventory Components
+#### Inventory Components (`src/pages/Inventory/components/`)
 - **ResourceTable**: Advanced table for resource management
-- **FilterPanel**: Search and filtering interface
-- **ResourceDetails**: Detailed resource information display
+- **ResourceSelector**: Multi-select dropdown with search and filtering
 
-#### Layout Components
+### Common Components (`src/components/common/`)
+Shared layout components used across the application:
+- **ApplicationHeader**: Top navigation bar with notifications and user menu
+- **DashboardHeader**: Page-specific header with breadcrumbs and actions
+- **SidebarLayout**: Sidebar navigation with tabs and layout structure
+
+### System Components
+Components organized by system concern:
+
+#### Layout System (`src/layout/`)
 - **Layout**: Main application layout wrapper
-- **Navigation**: Primary navigation component
-- **Header**: Application header with branding and controls
-- **Sidebar**: Collapsible sidebar navigation
+
+#### Navigation System (`src/navigation/`)
+- **Navigation**: Primary navigation component with routing logic
+
+#### Theme System (`src/theme/`)
+- **ThemeToggle**: Theme switching functionality
+- **Theme Configuration**: Light/dark theme definitions
+
+#### Notification System (`src/notification/`)
+- **NotificationProvider**: Context provider for notifications
+- **NotificationService**: Business logic for notification management
 
 ### Page Components
 Top-level components that combine multiple composite components:
@@ -219,10 +278,13 @@ export const buttonStyles = {
 - Pages: PascalCase with `index.tsx` as entry point
 
 ### Import Strategy
-- Page components import from `./ComponentName`
-- Composite components import from `@/components/base/`
-- Base components import only external dependencies
-- Absolute imports using `@/` prefix for src directory
+- **Page Components**: Import from `./components/ComponentName/ComponentName`
+- **Page-Specific Components**: Import from `../ComponentName/ComponentName`
+- **Base Components**: Import from `@/components/base/ComponentName`
+- **Common Components**: Import from `@/components/common/ComponentName`
+- **System Components**: Import from `@/systemName/ComponentName`
+- **Absolute Imports**: Use `@/` prefix for src directory
+- **Cross-Page Imports**: Use `../../../OtherPage/components/ComponentName`
 
 ## Technology Stack
 
