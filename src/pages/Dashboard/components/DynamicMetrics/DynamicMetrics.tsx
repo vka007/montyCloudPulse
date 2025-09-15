@@ -13,7 +13,7 @@ import {
   Storage,
   NetworkCheck,
 } from '@mui/icons-material';
-import { MetricCard } from '@/components/composite/MetricCard/MetricCard';
+import { MetricCard } from '../MetricCard/MetricCard';
 import { CPUTrendChart, MemoryChart, NetworkTrafficChart, GaugeChart } from '@/components/base/Charts';
 import { EnhancedResource } from '@/data/enhancedMockData';
 import { dynamicMetricsStyles } from './DynamicMetrics.styles';

@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { Refresh } from '@mui/icons-material';
 import { Button } from '@/components/base/Button/Button';
-import { MetricCard } from '@/components/composite/MetricCard/MetricCard';
+import { MetricCard } from '../MetricCard/MetricCard';
 import { useResourceStore } from '@/store/resourceStore';
 import { MetricCardData } from '@/types/resources';
 import { generateStatusTrendData } from '@/data/dataGenerator';
