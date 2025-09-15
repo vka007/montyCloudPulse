@@ -31,6 +31,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <MuiButton
       disabled={disabled || loading}
+      size={size}
       startIcon={loading ? <CircularProgress size={16} /> : startIcon}
       sx={getButtonStyles()}
       {...props}
