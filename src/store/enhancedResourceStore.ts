@@ -159,7 +159,12 @@ export const useEnhancedResourceStore = create<EnhancedResourceStore>((set, get)
   startRealTimeUpdates: () => {
     const { isRealTimeActive, realTimeInterval } = get();
     
-    if (isRealTimeActive || realTimeInterval) {
+    // Clear any existing interval first
+    if (realTimeInterval) {
+      clearInterval(realTimeInterval);
+    }
+    
+    if (isRealTimeActive) {
       return; // Already active
     }
 
