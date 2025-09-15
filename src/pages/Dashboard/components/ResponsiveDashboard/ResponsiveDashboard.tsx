@@ -58,8 +58,7 @@ export const ResponsiveDashboard: React.FC = () => {
     loading, 
     initializeIfNeeded,
     isRealTimeActive, 
-    startRealTimeUpdates, 
-    stopRealTimeUpdates 
+    startRealTimeUpdates
   } = useEnhancedResourceStore();
   
   const [tabValue, setTabValue] = useState(0);
@@ -142,10 +141,8 @@ export const ResponsiveDashboard: React.FC = () => {
       }, 1000);
     }
     
-    // Cleanup on unmount
-    return () => {
-      stopRealTimeUpdates();
-    };
+    // Don't stop real-time updates on unmount - let other pages continue using the data
+    // The real-time updates will continue running in the background
   }, []); // Empty dependency array - only run once on mount
 
 

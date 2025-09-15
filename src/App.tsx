@@ -7,9 +7,18 @@ import { Navigation } from '@/navigation/Navigation';
 import { Dashboard } from '@/pages/Dashboard';
 import { Inventory } from '@/pages/Inventory';
 import { useTheme } from '@/hooks/useTheme';
+import { useEnhancedResourceStore } from '@/store/enhancedResourceStore';
 
 const App: React.FC = () => {
   const { muiTheme } = useTheme();
+  const { stopRealTimeUpdates } = useEnhancedResourceStore();
+
+  // Global cleanup when app unmounts
+  React.useEffect(() => {
+    return () => {
+      stopRealTimeUpdates();
+    };
+  }, [stopRealTimeUpdates]);
 
   return (
     <ThemeProvider theme={muiTheme}>
