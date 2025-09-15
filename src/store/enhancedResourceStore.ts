@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { EnhancedResource, enhancedMockResources } from '@/data/enhancedMockData';
+import { EnhancedResource, enhancedMockResources } from '@/dataFactory/enhancedMockData';
 
 interface EnhancedResourceStore {
   // State

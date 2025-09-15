@@ -27,7 +27,7 @@ import {
   getAvailableRegions,
   getAvailableAccounts,
   getAvailableResourceTypes,
-} from '@/data/enhancedMockData';
+} from '@/dataFactory/enhancedMockData';
 import { responsiveDashboardStyles } from './ResponsiveDashboard.styles';
 
 interface TabPanelProps {

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { CloudResource, DashboardMetrics } from '@/types/resources';
-import { mockResources, calculateDashboardMetrics } from '@/data/mockResources';
-import { updateResourceMetrics } from '@/data/dataGenerator';
+import { mockResources, calculateDashboardMetrics } from '@/dataFactory/mockResources';
+import { updateResourceMetrics } from '@/dataFactory/dataGenerator';
 
 interface ResourceStore {
   // State
