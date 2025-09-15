@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TabValue } from '@/types/navigation';
-import { SidebarLayout } from './SidebarLayout';
-import { ProfessionalHeader } from './ApplicationHeader';
+import { SidebarLayout } from '../SidebarLayout';
+import { ApplicationHeader } from '../ApplicationHeader/ApplicationHeader';
 
 interface NavigationProps {
   children: React.ReactNode;
@@ -27,14 +27,14 @@ export const Navigation: React.FC<NavigationProps> = ({ children }) => {
     switch (tabValue) {
       case 'dashboard':
         return (
-          <ProfessionalHeader
+          <ApplicationHeader
             title="Cloud Resources Dashboard"
             subtitle="Monitor and manage your cloud infrastructure in real-time"
           />
         );
       case 'inventory':
         return (
-          <ProfessionalHeader
+          <ApplicationHeader
             title="Resource Inventory"
             subtitle="Search, filter, and manage your cloud resources"
           />

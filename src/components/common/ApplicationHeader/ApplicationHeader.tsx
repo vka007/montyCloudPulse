@@ -21,12 +21,12 @@ import {
 } from '@mui/icons-material';
 import { useNotificationStore } from '@/store/notificationStore';
 
-interface ProfessionalHeaderProps {
+interface ApplicationHeaderProps {
   title: string;
   subtitle: string;
 }
 
-export const ProfessionalHeader: React.FC<ProfessionalHeaderProps> = ({ 
+export const ApplicationHeader: React.FC<ApplicationHeaderProps> = ({ 
   title, 
   subtitle
 }) => {

@@ -9,7 +9,7 @@ import {
   Storage,
   Cloud,
 } from '@mui/icons-material';
-import { ThemeToggle } from './ThemeToggle';
+import { ThemeToggle } from '../ThemeToggle';
 import { sidebarLayoutStyles } from './SidebarLayout.styles';
 
 interface SidebarLayoutProps {
