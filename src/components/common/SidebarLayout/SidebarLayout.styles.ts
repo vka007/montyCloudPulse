@@ -166,7 +166,7 @@ export const sidebarLayoutStyles = {
 
   contentArea: {
     flex: 1,
-    padding: '12px',
+    padding: '20px',
     overflow: 'auto',
     backgroundColor: 'background.default',
   } as SxProps<Theme>,

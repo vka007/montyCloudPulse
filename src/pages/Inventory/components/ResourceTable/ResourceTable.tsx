@@ -13,16 +13,13 @@ import {
   TableHead,
   TableRow,
   Paper,
-  IconButton,
   Typography,
   Grid,
   InputAdornment,
-  Tooltip,
   TableSortLabel,
 } from '@mui/material';
 import {
   Search,
-  Refresh,
   Cloud,
   Dataset,
   Functions,
@@ -34,7 +31,6 @@ import {
 } from '@mui/icons-material';
 import { Card } from '@/components/base/Card/Card';
 import { Chip } from '@/components/base/Chip/Chip';
-import { EChart } from '@/components/base/EChart/EChart';
 import { useEnhancedResourceStore } from '@/store/enhancedResourceStore';
 import { FilterOptions, SortOptions } from '@/types/navigation';
 import { resourceTableStyles } from './ResourceTable.styles';
@@ -55,12 +51,39 @@ const getResourceIcon = (type: string) => {
 
 
 export const ResourceTable: React.FC = () => {
-  const { resources, loading, initializeIfNeeded } = useEnhancedResourceStore();
+  const { 
+    resources, 
+    loading, 
+    initializeIfNeeded,
+    isRealTimeActive,
+    startRealTimeUpdates,
+    stopRealTimeUpdates
+  } = useEnhancedResourceStore();
   
-  // Initialize data if needed
+  // Use ref to track initialization to prevent infinite loops
+  const hasInitialized = React.useRef(false);
+  
+  // Initialize data and start real-time updates
   React.useEffect(() => {
-    initializeIfNeeded();
-  }, [initializeIfNeeded]);
+    if (!hasInitialized.current) {
+      hasInitialized.current = true;
+      
+      // Initialize data if needed
+      initializeIfNeeded();
+      
+      // Start real-time updates after a short delay to ensure data is loaded
+      setTimeout(() => {
+        if (!isRealTimeActive) {
+          startRealTimeUpdates();
+        }
+      }, 1000);
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      stopRealTimeUpdates();
+    };
+  }, []); // Empty dependency array - only run once on mount
   
   const [filters, setFilters] = useState<FilterOptions>({
     search: '',
@@ -193,7 +216,7 @@ export const ResourceTable: React.FC = () => {
   }, [filteredResources]);
 
   return (
-    <Box sx={resourceTableStyles.container}>
+    <Box sx={resourceTableStyles.container}>      
       {/* Beautiful SaaS-Style 5-Card Row */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         {/* 1. Total Resources Card */}
@@ -212,45 +235,13 @@ export const ResourceTable: React.FC = () => {
               transition: 'all 0.3s ease'
             }
           }}>
-            <Box sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
-              <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', pr: 2 }}>
-                <Typography sx={{ fontSize: '2.5rem', fontWeight: 800, lineHeight: 1, mb: 1 }}>
-                  {summaryStats.total}
-                </Typography>
-                <Typography sx={{ fontSize: '1rem', opacity: 0.7, fontWeight: 500 }}>
-                  Total Resources
-                </Typography>
-              </Box>
-              <Box sx={{ width: 250, height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <EChart
-                  option={{
-                    tooltip: {
-                      trigger: 'item',
-                      formatter: '{b}: {c} ({d}%)',
-                      backgroundColor: 'rgba(0,0,0,0.8)',
-                      textStyle: { color: '#fff' }
-                    },
-                    series: [{
-                      type: 'pie',
-                      radius: [0, '70%'],
-                      center: ['50%', '50%'],
-                      roseType: 'area',
-                      data: [
-                        { value: summaryStats.running, name: 'Running', itemStyle: { color: '#4caf50' } },
-                        { value: summaryStats.warning, name: 'Warning', itemStyle: { color: '#ff9800' } },
-                        { value: summaryStats.error, name: 'Error', itemStyle: { color: '#f44336' } },
-                        { value: summaryStats.total - summaryStats.running - summaryStats.warning - summaryStats.error, name: 'Stopped', itemStyle: { color: '#9e9e9e' } }
-                      ],
-                      label: { show: false },
-                      labelLine: { show: false },
-                      emphasis: { 
-                        itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)' }
-                      }
-                    }]
-                  }}
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </Box>
+            <Box sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <Typography sx={{ fontSize: '3.5rem', fontWeight: 800, lineHeight: 1, mb: 1 }}>
+                {summaryStats.total}
+              </Typography>
+              <Typography sx={{ fontSize: '1rem', opacity: 0.7, fontWeight: 500 }}>
+                Total Resources
+              </Typography>
             </Box>
           </Card>
         </Grid>
@@ -271,48 +262,13 @@ export const ResourceTable: React.FC = () => {
               transition: 'all 0.3s ease'
             }
           }}>
-            <Box sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
-              <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', pr: 2 }}>
-                <Typography sx={{ fontSize: '2.5rem', fontWeight: 800, lineHeight: 1, mb: 1 }}>
-                  {summaryStats.running + summaryStats.warning + summaryStats.error}
-                </Typography>
-                <Typography sx={{ fontSize: '1rem', opacity: 0.7, fontWeight: 500 }}>
-                  Active Resources
-                </Typography>
-              </Box>
-              <Box sx={{ width: 250, height: 123, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <EChart
-                  option={{
-                    tooltip: {
-                      trigger: 'item',
-                      formatter: '{b}: {c} ({d}%)',
-                      backgroundColor: 'rgba(0,0,0,0.8)',
-                      textStyle: { color: '#fff' }
-                    },
-                    series: [{
-                      type: 'pie',
-                      radius: ['30%', '60%'],
-                      center: ['50%', '50%'],
-                      data: [
-                        { value: resources.filter(r => r.type === 'ec2').length, name: 'EC2', itemStyle: { color: '#1976d2' } },
-                        { value: resources.filter(r => r.type === 'rds').length, name: 'RDS', itemStyle: { color: '#4caf50' } },
-                        { value: resources.filter(r => r.type === 'lambda').length, name: 'Lambda', itemStyle: { color: '#ff9800' } },
-                        { value: resources.filter(r => r.type === 's3').length, name: 'S3', itemStyle: { color: '#f44336' } },
-                        { value: resources.filter(r => r.type === 'loadbalancer').length, name: 'LB', itemStyle: { color: '#9c27b0' } },
-                        { value: resources.filter(r => r.type === 'cloudfront').length, name: 'CF', itemStyle: { color: '#00bcd4' } },
-                        { value: resources.filter(r => r.type === 'apigateway').length, name: 'API', itemStyle: { color: '#795548' } },
-                        { value: resources.filter(r => r.type === 'ecs').length, name: 'ECS', itemStyle: { color: '#607d8b' } }
-                      ],
-                      label: { show: false },
-                      labelLine: { show: false },
-                      emphasis: { 
-                        itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)' }
-                      }
-                    }]
-                  }}
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </Box>
+            <Box sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <Typography sx={{ fontSize: '3.5rem', fontWeight: 800, lineHeight: 1, mb: 1 }}>
+                {summaryStats.running + summaryStats.warning + summaryStats.error}
+              </Typography>
+              <Typography sx={{ fontSize: '1rem', opacity: 0.7, fontWeight: 500 }}>
+                Active Resources
+              </Typography>
             </Box>
           </Card>
         </Grid>
@@ -333,71 +289,20 @@ export const ResourceTable: React.FC = () => {
               transition: 'all 0.3s ease'
             }
           }}>
-            <Box sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
-              <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', pr: 2 }}>
-                <Typography sx={{ fontSize: '2.5rem', fontWeight: 800, lineHeight: 1, mb: 1 }}>
-                  {summaryStats.avgCpu}%
-                </Typography>
-                <Typography sx={{ fontSize: '1rem', opacity: 0.7, fontWeight: 500 }}>
-                  Avg CPU Usage
-                </Typography>
-              </Box>
-              <Box sx={{ width: 200, height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <EChart
-                  option={{
-                    tooltip: {
-                      trigger: 'item',
-                      formatter: `CPU Usage: ${summaryStats.avgCpu}% (${summaryStats.avgCpu > 80 ? 'High' : summaryStats.avgCpu > 60 ? 'Medium' : 'Low'} Load)`,
-                      backgroundColor: 'rgba(0,0,0,0.8)',
-                      textStyle: { color: '#fff' }
-                    },
-                    series: [{
-                      type: 'gauge',
-                      radius: '70%',
-                      center: ['50%', '50%'],
-                      min: 0,
-                      max: 100,
-                      data: [{ value: summaryStats.avgCpu, name: 'CPU' }],
-                      axisLine: {
-                        lineStyle: {
-                          width: 8,
-                          color: [
-                            [0.2, '#e0e0e0'],
-                            [0.4, '#4caf50'],
-                            [0.6, '#ff9800'],
-                            [0.8, '#ff5722'],
-                            [1, '#f44336']
-                          ]
-                        }
-                      },
-                      pointer: { 
-                        show: true,
-                        length: '60%',
-                        width: 3,
-                        itemStyle: { color: '#1976d2' }
-                      },
-                      axisTick: { show: false },
-                      splitLine: { 
-                        show: true,
-                        length: 8,
-                        lineStyle: { color: '#e0e0e0', width: 1 }
-                      },
-                      axisLabel: { show: false },
-                      detail: { 
-                        show: true,
-                        fontSize: 12,
-                        color: '#1976d2',
-                        formatter: '{value}%',
-                        offsetCenter: [0, '70%']
-                      },
-                      emphasis: { 
-                        itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)' }
-                      }
-                    }]
-                  }}
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </Box>
+            <Box sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <Typography sx={{ 
+                fontSize: '3.5rem', 
+                fontWeight: 800, 
+                lineHeight: 1, 
+                mb: 1,
+                color: summaryStats.avgCpu < 35 ? 'success.main' : 
+                       summaryStats.avgCpu < 70 ? 'warning.main' : 'error.main'
+              }}>
+                {summaryStats.avgCpu}%
+              </Typography>
+              <Typography sx={{ fontSize: '1rem', opacity: 0.7, fontWeight: 500 }}>
+                Avg CPU Usage
+              </Typography>
             </Box>
           </Card>
         </Grid>
@@ -418,71 +323,20 @@ export const ResourceTable: React.FC = () => {
               transition: 'all 0.3s ease'
             }
           }}>
-            <Box sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
-              <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', pr: 2 }}>
-                <Typography sx={{ fontSize: '2.5rem', fontWeight: 800, lineHeight: 1, mb: 1 }}>
-                  {summaryStats.avgMemory}%
-                </Typography>
-                <Typography sx={{ fontSize: '1rem', opacity: 0.7, fontWeight: 500 }}>
-                  Avg Memory Usage
-                </Typography>
-              </Box>
-              <Box sx={{ width: 190, height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <EChart
-                  option={{
-                    tooltip: {
-                      trigger: 'item',
-                      formatter: `Memory Usage: ${summaryStats.avgMemory}% (${summaryStats.avgMemory > 80 ? 'High' : summaryStats.avgMemory > 60 ? 'Medium' : 'Low'} Usage)`,
-                      backgroundColor: 'rgba(0,0,0,0.8)',
-                      textStyle: { color: '#fff' }
-                    },
-                    series: [{
-                      type: 'gauge',
-                      radius: '70%',
-                      center: ['50%', '50%'],
-                      min: 0,
-                      max: 100,
-                      data: [{ value: summaryStats.avgMemory, name: 'Memory' }],
-                      axisLine: {
-                        lineStyle: {
-                          width: 8,
-                          color: [
-                            [0.2, '#e0e0e0'],
-                            [0.4, '#4caf50'],
-                            [0.6, '#ff9800'],
-                            [0.8, '#ff5722'],
-                            [1, '#f44336']
-                          ]
-                        }
-                      },
-                      pointer: { 
-                        show: true,
-                        length: '60%',
-                        width: 3,
-                        itemStyle: { color: '#ff9800' }
-                      },
-                      axisTick: { show: false },
-                      splitLine: { 
-                        show: true,
-                        length: 8,
-                        lineStyle: { color: '#e0e0e0', width: 1 }
-                      },
-                      axisLabel: { show: false },
-                      detail: { 
-                        show: true,
-                        fontSize: 12,
-                        color: '#ff9800',
-                        formatter: '{value}%',
-                        offsetCenter: [0, '70%']
-                      },
-                      emphasis: { 
-                        itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)' }
-                      }
-                    }]
-                  }}
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </Box>
+            <Box sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <Typography sx={{ 
+                fontSize: '3.5rem', 
+                fontWeight: 800, 
+                lineHeight: 1, 
+                mb: 1,
+                color: summaryStats.avgMemory < 35 ? 'success.main' : 
+                       summaryStats.avgMemory < 70 ? 'warning.main' : 'error.main'
+              }}>
+                {summaryStats.avgMemory}%
+              </Typography>
+              <Typography sx={{ fontSize: '1rem', opacity: 0.7, fontWeight: 500 }}>
+                Avg Memory Usage
+              </Typography>
             </Box>
           </Card>
         </Grid>
@@ -503,52 +357,24 @@ export const ResourceTable: React.FC = () => {
               transition: 'all 0.3s ease'
             }
           }}>
-            <Box sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
-              <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', pr: 2 }}>
-                <Typography sx={{ fontSize: '2.5rem', fontWeight: 800, lineHeight: 1, mb: 1 }}>
-                  ${summaryStats.totalCost}
-                </Typography>
-                <Typography sx={{ fontSize: '1rem', opacity: 0.7, fontWeight: 500 }}>
-                  Monthly Cost
-                </Typography>
-              </Box>
-              <Box sx={{ width: 135, height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <EChart
-                  option={{
-                    tooltip: {
-                      trigger: 'item',
-                      formatter: '{b}: ${c} ({d}%)',
-                      backgroundColor: 'rgba(0,0,0,0.8)',
-                      textStyle: { color: '#fff' }
-                    },
-                    series: [{
-                      type: 'pie',
-                      radius: ['40%', '70%'],
-                      center: ['50%', '50%'],
-                      data: [
-                        { value: Math.round(resources.filter(r => r.type === 'ec2').reduce((sum, r) => sum + r.cost.monthly, 0) * 10) / 10, name: 'EC2', itemStyle: { color: '#1976d2' } },
-                        { value: Math.round(resources.filter(r => r.type === 'rds').reduce((sum, r) => sum + r.cost.monthly, 0) * 10) / 10, name: 'RDS', itemStyle: { color: '#4caf50' } },
-                        { value: Math.round(resources.filter(r => r.type === 'lambda').reduce((sum, r) => sum + r.cost.monthly, 0) * 10) / 10, name: 'Lambda', itemStyle: { color: '#ff9800' } },
-                        { value: Math.round(resources.filter(r => r.type === 's3').reduce((sum, r) => sum + r.cost.monthly, 0) * 10) / 10, name: 'S3', itemStyle: { color: '#f44336' } },
-                        { value: Math.round(resources.filter(r => r.type === 'loadbalancer').reduce((sum, r) => sum + r.cost.monthly, 0) * 10) / 10, name: 'LB', itemStyle: { color: '#9c27b0' } },
-                        { value: Math.round(resources.filter(r => r.type === 'cloudfront').reduce((sum, r) => sum + r.cost.monthly, 0) * 10) / 10, name: 'CF', itemStyle: { color: '#00bcd4' } },
-                        { value: Math.round(resources.filter(r => r.type === 'apigateway').reduce((sum, r) => sum + r.cost.monthly, 0) * 10) / 10, name: 'API', itemStyle: { color: '#795548' } },
-                        { value: Math.round(resources.filter(r => r.type === 'ecs').reduce((sum, r) => sum + r.cost.monthly, 0) * 10) / 10, name: 'ECS', itemStyle: { color: '#607d8b' } }
-                      ],
-                      label: { show: false },
-                      labelLine: { show: false },
-                      emphasis: { 
-                        itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)' }
-                      }
-                    }]
-                  }}
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </Box>
+            <Box sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <Typography sx={{ 
+                fontSize: '3.5rem', 
+                fontWeight: 800, 
+                lineHeight: 1, 
+                mb: 1,
+                color: 'primary.main'
+              }}>
+                ${summaryStats.totalCost}
+              </Typography>
+              <Typography sx={{ fontSize: '1rem', opacity: 0.7, fontWeight: 500 }}>
+                Monthly Cost
+              </Typography>
             </Box>
           </Card>
         </Grid>
       </Grid>
+
 
       {/* Search and Filters */}
       <Box sx={resourceTableStyles.searchContainer}>
@@ -630,12 +456,6 @@ export const ResourceTable: React.FC = () => {
               ))}
             </Select>
           </FormControl>
-
-          <Tooltip title="Refresh Data">
-            <IconButton onClick={initializeIfNeeded} disabled={loading}>
-              <Refresh />
-            </IconButton>
-          </Tooltip>
         </Box>
       </Box>
 
@@ -726,7 +546,16 @@ export const ResourceTable: React.FC = () => {
                 </TableCell>
                 <TableCell>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '100%' }}>
-                    <Typography variant="body2" fontWeight={600} sx={{ fontSize: '0.875rem', minWidth: 35 }}>
+                    <Typography 
+                      variant="body2" 
+                      fontWeight={600} 
+                      sx={{ 
+                        fontSize: '0.875rem', 
+                        minWidth: 35,
+                        color: resource.metrics.cpu.current < 35 ? 'success.main' : 
+                               resource.metrics.cpu.current < 70 ? 'warning.main' : 'error.main'
+                      }}
+                    >
                       {resource.metrics.cpu.current}%
                     </Typography>
                     <Box sx={{ flex: 1, height: 8, backgroundColor: '#e0e0e0', borderRadius: 4, overflow: 'hidden' }}>
@@ -734,7 +563,8 @@ export const ResourceTable: React.FC = () => {
                         sx={{ 
                           height: '100%', 
                           width: `${resource.metrics.cpu.current}%`,
-                          backgroundColor: '#4caf50',
+                          backgroundColor: resource.metrics.cpu.current < 35 ? 'success.main' : 
+                                         resource.metrics.cpu.current < 70 ? 'warning.main' : 'error.main',
                           borderRadius: 4,
                           transition: 'width 0.3s ease'
                         }} 
@@ -744,7 +574,16 @@ export const ResourceTable: React.FC = () => {
                 </TableCell>
                 <TableCell>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '100%' }}>
-                    <Typography variant="body2" fontWeight={600} sx={{ fontSize: '0.875rem', minWidth: 35 }}>
+                    <Typography 
+                      variant="body2" 
+                      fontWeight={600} 
+                      sx={{ 
+                        fontSize: '0.875rem', 
+                        minWidth: 35,
+                        color: resource.metrics.memory.percentage < 35 ? 'success.main' : 
+                               resource.metrics.memory.percentage < 70 ? 'warning.main' : 'error.main'
+                      }}
+                    >
                       {resource.metrics.memory.percentage}%
                     </Typography>
                     <Box sx={{ flex: 1, height: 8, backgroundColor: '#e0e0e0', borderRadius: 4, overflow: 'hidden' }}>
@@ -752,7 +591,8 @@ export const ResourceTable: React.FC = () => {
                         sx={{ 
                           height: '100%', 
                           width: `${resource.metrics.memory.percentage}%`,
-                          backgroundColor: resource.metrics.memory.percentage > 60 ? '#ff9800' : '#4caf50',
+                          backgroundColor: resource.metrics.memory.percentage < 35 ? 'success.main' : 
+                                         resource.metrics.memory.percentage < 70 ? 'warning.main' : 'error.main',
                           borderRadius: 4,
                           transition: 'width 0.3s ease'
                         }} 
