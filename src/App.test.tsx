@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen } from '@/test/testUtils';
-import { BrowserRouter } from 'react-router-dom';
 import { describe, it, expect, vi } from 'vitest';
 import App from './App';
 

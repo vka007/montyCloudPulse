@@ -7,8 +7,8 @@ import { createTheme } from '@mui/material/styles';
 // Extend Vitest's expect with jest-dom matchers
 expect.extend(matchers);
 
-// Create a minimal theme for testing
-const testTheme = createTheme({
+// Create a minimal theme for testing (used by test utilities)
+createTheme({
   typography: {
     fontWeightBold: 700,
     fontWeightMedium: 500,

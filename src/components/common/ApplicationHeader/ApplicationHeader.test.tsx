@@ -1,7 +1,7 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@/test/testUtils';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ApplicationHeader } from './ApplicationHeader';
+import { useNotificationStore } from '@/store/notificationStore';
 
 // Mock the notification store
 const mockNotificationStore = {
@@ -22,7 +22,7 @@ const mockNotificationStore = {
 };
 
 vi.mock('@/store/notificationStore', () => ({
-  useNotificationStore: () => mockNotificationStore,
+  useNotificationStore: vi.fn(() => mockNotificationStore),
 }));
 
 describe('ApplicationHeader Component', () => {
@@ -172,8 +172,8 @@ describe('ApplicationHeader Component', () => {
       unreadCount: 0,
     };
     
-    vi.mocked(mockNotificationStore).notifications = [];
-    vi.mocked(mockNotificationStore).unreadCount = 0;
+    // Use the empty store in the test
+    vi.mocked(useNotificationStore).mockReturnValue(emptyNotificationStore);
 
     render(<ApplicationHeader {...defaultProps} />);
     
