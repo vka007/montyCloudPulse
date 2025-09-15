@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNotificationStore } from '@/store/notificationStore';
-import { NotificationService } from '@/services/notificationService';
+import { NotificationService } from './notificationService';
 import { useEnhancedResourceStore } from '@/store/enhancedResourceStore';
 
 interface NotificationProviderProps {

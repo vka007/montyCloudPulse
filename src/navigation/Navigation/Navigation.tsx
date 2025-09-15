@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TabValue } from '@/types/navigation';
-import { SidebarLayout } from '../SidebarLayout';
-import { ApplicationHeader } from '../ApplicationHeader/ApplicationHeader';
+import { SidebarLayout } from '../../components/common/SidebarLayout';
+import { ApplicationHeader } from '../../components/common/ApplicationHeader/ApplicationHeader';
 
 interface NavigationProps {
   children: React.ReactNode;
