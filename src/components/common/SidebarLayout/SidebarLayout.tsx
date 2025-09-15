@@ -17,6 +17,7 @@ interface SidebarLayoutProps {
   headerContent?: React.ReactNode;
   activeTab: string;
   onTabChange: (tab: string) => void;
+  noPadding?: boolean;
 }
 
 const navigationItems = [
@@ -37,6 +38,7 @@ export const SidebarLayout: React.FC<SidebarLayoutProps> = ({
   headerContent,
   activeTab,
   onTabChange,
+  noPadding = false,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -144,7 +146,10 @@ export const SidebarLayout: React.FC<SidebarLayoutProps> = ({
         </Box>
 
         {/* Content Area */}
-        <Box sx={sidebarLayoutStyles.contentArea}>
+        <Box sx={{
+          ...sidebarLayoutStyles.contentArea,
+          padding: noPadding ? 0 : '20px',
+        }}>
           {children}
         </Box>
       </Box>

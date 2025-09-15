@@ -56,6 +56,7 @@ export const Navigation: React.FC<NavigationProps> = ({ children }) => {
       headerContent={getHeaderContent(activeTab)}
       activeTab={activeTab}
       onTabChange={handleTabChange}
+      noPadding={activeTab === 'dashboard'}
     >
       {children}
     </SidebarLayout>

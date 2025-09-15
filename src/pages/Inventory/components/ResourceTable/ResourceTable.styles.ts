@@ -1,6 +1,17 @@
 export const resourceTableStyles = {
   container: {
     mt: 1,
+    '@keyframes pulse': {
+      '0%': {
+        opacity: 1,
+      },
+      '50%': {
+        opacity: 0.5,
+      },
+      '100%': {
+        opacity: 1,
+      },
+    },
   },
   searchContainer: {
     mb: 3,

@@ -132,6 +132,8 @@ export const sidebarLayoutStyles = {
     borderBottom: '1px solid',
     borderBottomColor: 'divider',
     padding: '0 24px',
+    paddingTop: '6px',
+    paddingBottom: '6px',
     minHeight: 64,
     display: 'flex',
     alignItems: 'center',
@@ -166,7 +168,7 @@ export const sidebarLayoutStyles = {
 
   contentArea: {
     flex: 1,
-    padding: '12px',
+    padding: '20px',
     overflow: 'auto',
     backgroundColor: 'background.default',
   } as SxProps<Theme>,

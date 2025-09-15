@@ -1,63 +1,63 @@
 export const chipStyles = {
   base: {
-    borderRadius: 6,
+    borderRadius: 0.7,
     fontWeight: 600,
-    fontSize: '0.75rem',
+    fontSize: '0.80rem',
     height: 28,
-    textTransform: 'uppercase' as const,
+    textTransform: 'capitalize' as const,
     letterSpacing: '0.05em',
     border: '1px solid transparent',
   },
   status: {
     running: {
-      backgroundColor: '#d1fae5', // Emerald 100
-      color: '#065f46', // Emerald 800
-      borderColor: '#a7f3d0', // Emerald 200
+      backgroundColor: '#10b981', // Vibrant green
+      color: '#ffffff', // White text for contrast
+      borderColor: '#059669', // Darker green border
       '& .MuiChip-label': {
-        color: '#065f46',
+        color: '#ffffff',
         fontWeight: 600,
       },
       // Dark mode styles
       '@media (prefers-color-scheme: dark)': {
-        backgroundColor: 'rgba(52, 211, 153, 0.15)',
-        color: '#6ee7b7',
-        borderColor: 'rgba(52, 211, 153, 0.3)',
+        backgroundColor: '#059669',
+        color: '#ffffff',
+        borderColor: '#047857',
         '& .MuiChip-label': {
-          color: '#6ee7b7',
+          color: '#ffffff',
         },
       },
     },
     warning: {
-      backgroundColor: '#fef3c7', // Amber 100
-      color: '#92400e', // Amber 800
-      borderColor: '#fde68a', // Amber 200
+      backgroundColor: '#f59e0b', // Vibrant orange
+      color: '#ffffff', // White text for contrast
+      borderColor: '#d97706', // Darker orange border
       '& .MuiChip-label': {
-        color: '#92400e',
+        color: '#ffffff',
         fontWeight: 600,
       },
       '@media (prefers-color-scheme: dark)': {
-        backgroundColor: 'rgba(251, 191, 36, 0.15)',
-        color: '#fcd34d',
-        borderColor: 'rgba(251, 191, 36, 0.3)',
+        backgroundColor: '#d97706',
+        color: '#ffffff',
+        borderColor: '#b45309',
         '& .MuiChip-label': {
-          color: '#fcd34d',
+          color: '#ffffff',
         },
       },
     },
     error: {
-      backgroundColor: '#fee2e2', // Red 100
-      color: '#991b1b', // Red 800
-      borderColor: '#fecaca', // Red 200
+      backgroundColor: '#ef4444', // Vibrant red
+      color: '#ffffff', // White text for contrast
+      borderColor: '#dc2626', // Darker red border
       '& .MuiChip-label': {
-        color: '#991b1b',
+        color: '#ffffff',
         fontWeight: 600,
       },
       '@media (prefers-color-scheme: dark)': {
-        backgroundColor: 'rgba(248, 113, 113, 0.15)',
-        color: '#fca5a5',
-        borderColor: 'rgba(248, 113, 113, 0.3)',
+        backgroundColor: '#dc2626',
+        color: '#ffffff',
+        borderColor: '#b91c1c',
         '& .MuiChip-label': {
-          color: '#fca5a5',
+          color: '#ffffff',
         },
       },
     },
@@ -79,36 +79,36 @@ export const chipStyles = {
       },
     },
     pending: {
-      backgroundColor: '#dbeafe', // Blue 100
-      color: '#1e40af', // Blue 800
-      borderColor: '#bfdbfe', // Blue 200
+      backgroundColor: '#3b82f6', // Vibrant blue
+      color: '#ffffff', // White text for contrast
+      borderColor: '#2563eb', // Darker blue border
       '& .MuiChip-label': {
-        color: '#1e40af',
+        color: '#ffffff',
         fontWeight: 600,
       },
       '@media (prefers-color-scheme: dark)': {
-        backgroundColor: 'rgba(96, 165, 250, 0.15)',
-        color: '#93c5fd',
-        borderColor: 'rgba(96, 165, 250, 0.3)',
+        backgroundColor: '#2563eb',
+        color: '#ffffff',
+        borderColor: '#1d4ed8',
         '& .MuiChip-label': {
-          color: '#93c5fd',
+          color: '#ffffff',
         },
       },
     },
     terminated: {
-      backgroundColor: '#fee2e2', // Red 100
-      color: '#991b1b', // Red 800
-      borderColor: '#fecaca', // Red 200
+      backgroundColor: '#ef4444', // Vibrant red (same as error)
+      color: '#ffffff', // White text for contrast
+      borderColor: '#dc2626', // Darker red border
       '& .MuiChip-label': {
-        color: '#991b1b',
+        color: '#ffffff',
         fontWeight: 600,
       },
       '@media (prefers-color-scheme: dark)': {
-        backgroundColor: 'rgba(248, 113, 113, 0.15)',
-        color: '#fca5a5',
-        borderColor: 'rgba(248, 113, 113, 0.3)',
+        backgroundColor: '#dc2626',
+        color: '#ffffff',
+        borderColor: '#b91c1c',
         '& .MuiChip-label': {
-          color: '#fca5a5',
+          color: '#ffffff',
         },
       },
     },
