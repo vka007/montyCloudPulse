@@ -17,6 +17,8 @@ import {
   Grid,
   InputAdornment,
   TableSortLabel,
+  Checkbox,
+  ListItemText,
 } from '@mui/material';
 import {
   Search,
@@ -295,8 +297,8 @@ export const ResourceTable: React.FC = () => {
                 fontWeight: 800, 
                 lineHeight: 1, 
                 mb: 1,
-                color: summaryStats.avgCpu < 35 ? 'success.main' : 
-                       summaryStats.avgCpu < 70 ? 'warning.main' : 'error.main'
+                color: summaryStats.avgCpu <= 50 ? 'success.main' : 
+                       summaryStats.avgCpu <= 70 ? 'warning.main' : 'error.main'
               }}>
                 {summaryStats.avgCpu}%
               </Typography>
@@ -329,8 +331,8 @@ export const ResourceTable: React.FC = () => {
                 fontWeight: 800, 
                 lineHeight: 1, 
                 mb: 1,
-                color: summaryStats.avgMemory < 35 ? 'success.main' : 
-                       summaryStats.avgMemory < 70 ? 'warning.main' : 'error.main'
+                color: summaryStats.avgMemory <= 50 ? 'success.main' : 
+                       summaryStats.avgMemory <= 70 ? 'warning.main' : 'error.main'
               }}>
                 {summaryStats.avgMemory}%
               </Typography>
@@ -380,7 +382,7 @@ export const ResourceTable: React.FC = () => {
       <Box sx={resourceTableStyles.searchContainer}>
         <TextField
           sx={resourceTableStyles.searchField}
-          placeholder="Search resources by name or ID..."
+          placeholder="Search resources by name or type..."
           value={filters.search}
           onChange={(e) => handleFilterChange('search', e.target.value)}
           InputProps={{
@@ -400,10 +402,18 @@ export const ResourceTable: React.FC = () => {
               value={filters.status}
               onChange={(e) => handleFilterChange('status', e.target.value)}
               label="Status"
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip key={value} label={value.charAt(0).toUpperCase() + value.slice(1)} size="small" />
+                  ))}
+                </Box>
+              )}
             >
               {filterOptions.statuses.map(status => (
                 <MenuItem key={status} value={status}>
-                  {status.charAt(0).toUpperCase() + status.slice(1)}
+                  <Checkbox checked={filters.status.indexOf(status) > -1} />
+                  <ListItemText primary={status.charAt(0).toUpperCase() + status.slice(1)} />
                 </MenuItem>
               ))}
             </Select>
@@ -416,10 +426,18 @@ export const ResourceTable: React.FC = () => {
               value={filters.type}
               onChange={(e) => handleFilterChange('type', e.target.value)}
               label="Type"
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip key={value} label={value.toUpperCase()} size="small" />
+                  ))}
+                </Box>
+              )}
             >
               {filterOptions.types.map(type => (
                 <MenuItem key={type} value={type}>
-                  {type.toUpperCase()}
+                  <Checkbox checked={filters.type.indexOf(type) > -1} />
+                  <ListItemText primary={type.toUpperCase()} />
                 </MenuItem>
               ))}
             </Select>
@@ -432,10 +450,18 @@ export const ResourceTable: React.FC = () => {
               value={filters.region}
               onChange={(e) => handleFilterChange('region', e.target.value)}
               label="Region"
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip key={value} label={value} size="small" />
+                  ))}
+                </Box>
+              )}
             >
               {filterOptions.regions.map(region => (
                 <MenuItem key={region} value={region}>
-                  {region}
+                  <Checkbox checked={filters.region.indexOf(region) > -1} />
+                  <ListItemText primary={region} />
                 </MenuItem>
               ))}
             </Select>
@@ -448,10 +474,18 @@ export const ResourceTable: React.FC = () => {
               value={filters.account}
               onChange={(e) => handleFilterChange('account', e.target.value)}
               label="Account"
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip key={value} label={value} size="small" />
+                  ))}
+                </Box>
+              )}
             >
               {filterOptions.accounts.map(account => (
                 <MenuItem key={account} value={account}>
-                  {account}
+                  <Checkbox checked={filters.account.indexOf(account) > -1} />
+                  <ListItemText primary={account} />
                 </MenuItem>
               ))}
             </Select>
@@ -552,8 +586,8 @@ export const ResourceTable: React.FC = () => {
                       sx={{ 
                         fontSize: '0.875rem', 
                         minWidth: 35,
-                        color: resource.metrics.cpu.current < 35 ? 'success.main' : 
-                               resource.metrics.cpu.current < 70 ? 'warning.main' : 'error.main'
+                        color: resource.metrics.cpu.current <= 50 ? 'success.main' : 
+                               resource.metrics.cpu.current <= 70 ? 'warning.main' : 'error.main'
                       }}
                     >
                       {resource.metrics.cpu.current}%
@@ -563,8 +597,8 @@ export const ResourceTable: React.FC = () => {
                         sx={{ 
                           height: '100%', 
                           width: `${resource.metrics.cpu.current}%`,
-                          backgroundColor: resource.metrics.cpu.current < 35 ? 'success.main' : 
-                                         resource.metrics.cpu.current < 70 ? 'warning.main' : 'error.main',
+                          backgroundColor: resource.metrics.cpu.current <= 50 ? 'success.main' : 
+                                         resource.metrics.cpu.current <= 70 ? 'warning.main' : 'error.main',
                           borderRadius: 4,
                           transition: 'width 0.3s ease'
                         }} 
@@ -580,8 +614,8 @@ export const ResourceTable: React.FC = () => {
                       sx={{ 
                         fontSize: '0.875rem', 
                         minWidth: 35,
-                        color: resource.metrics.memory.percentage < 35 ? 'success.main' : 
-                               resource.metrics.memory.percentage < 70 ? 'warning.main' : 'error.main'
+                        color: resource.metrics.memory.percentage <= 50 ? 'success.main' : 
+                               resource.metrics.memory.percentage <= 70 ? 'warning.main' : 'error.main'
                       }}
                     >
                       {resource.metrics.memory.percentage}%
@@ -591,8 +625,8 @@ export const ResourceTable: React.FC = () => {
                         sx={{ 
                           height: '100%', 
                           width: `${resource.metrics.memory.percentage}%`,
-                          backgroundColor: resource.metrics.memory.percentage < 35 ? 'success.main' : 
-                                         resource.metrics.memory.percentage < 70 ? 'warning.main' : 'error.main',
+                          backgroundColor: resource.metrics.memory.percentage <= 50 ? 'success.main' : 
+                                         resource.metrics.memory.percentage <= 70 ? 'warning.main' : 'error.main',
                           borderRadius: 4,
                           transition: 'width 0.3s ease'
                         }} 

@@ -132,6 +132,8 @@ export const sidebarLayoutStyles = {
     borderBottom: '1px solid',
     borderBottomColor: 'divider',
     padding: '0 24px',
+    paddingTop: '6px',
+    paddingBottom: '6px',
     minHeight: 64,
     display: 'flex',
     alignItems: 'center',
