@@ -1,5 +1,5 @@
 import { useNotificationStore } from '@/store/notificationStore';
-import { EnhancedResource } from '@/data/enhancedMockData';
+import { EnhancedResource } from '@/dataFactory/enhancedMockData';
 
 export class NotificationService {
   private static instance: NotificationService;

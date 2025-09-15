@@ -20,14 +20,14 @@ import {
   MemoryChart, 
   NetworkTrafficChart,
 } from '@/components/base/Charts';
-import { ResourceSelector } from '@/components/composite/ResourceSelector/ResourceSelector';
-import { DynamicMetrics } from '@/components/composite/DynamicMetrics/DynamicMetrics';
+import { ResourceSelector } from '../../../Inventory/components/ResourceSelector/ResourceSelector';
+import { DynamicMetrics } from '../DynamicMetrics/DynamicMetrics';
 import { useEnhancedResourceStore } from '@/store/enhancedResourceStore';
 import { 
   getAvailableRegions,
   getAvailableAccounts,
   getAvailableResourceTypes,
-} from '@/data/enhancedMockData';
+} from '@/dataFactory/enhancedMockData';
 import { responsiveDashboardStyles } from './ResponsiveDashboard.styles';
 
 interface TabPanelProps {

@@ -13,9 +13,9 @@ import {
   Storage,
   NetworkCheck,
 } from '@mui/icons-material';
-import { MetricCard } from '@/components/composite/MetricCard/MetricCard';
+import { MetricCard } from '../MetricCard/MetricCard';
 import { CPUTrendChart, MemoryChart, NetworkTrafficChart, GaugeChart } from '@/components/base/Charts';
-import { EnhancedResource } from '@/data/enhancedMockData';
+import { EnhancedResource } from '@/dataFactory/enhancedMockData';
 import { dynamicMetricsStyles } from './DynamicMetrics.styles';
 
 interface DynamicMetricsProps {
