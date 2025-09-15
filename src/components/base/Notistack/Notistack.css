@@ -1,0 +1,92 @@
+/* Notistack Custom Styles */
+
+/* Light Theme */
+.notistack-success {
+  background-color: #4caf50 !important;
+  color: #ffffff !important;
+}
+
+.notistack-error {
+  background-color: #f44336 !important;
+  color: #ffffff !important;
+}
+
+.notistack-warning {
+  background-color: #ff9800 !important;
+  color: #ffffff !important;
+}
+
+.notistack-info {
+  background-color: #2196f3 !important;
+  color: #ffffff !important;
+}
+
+/* Dark Theme */
+.notistack-success-dark {
+  background-color: #2e7d32 !important;
+  color: #ffffff !important;
+}
+
+.notistack-error-dark {
+  background-color: #c62828 !important;
+  color: #ffffff !important;
+}
+
+.notistack-warning-dark {
+  background-color: #ef6c00 !important;
+  color: #ffffff !important;
+}
+
+.notistack-info-dark {
+  background-color: #1565c0 !important;
+  color: #ffffff !important;
+}
+
+/* Message styling */
+.notistack-success .SnackbarContent-message,
+.notistack-error .SnackbarContent-message,
+.notistack-warning .SnackbarContent-message,
+.notistack-info .SnackbarContent-message,
+.notistack-success-dark .SnackbarContent-message,
+.notistack-error-dark .SnackbarContent-message,
+.notistack-warning-dark .SnackbarContent-message,
+.notistack-info-dark .SnackbarContent-message {
+  color: #ffffff !important;
+  font-weight: 500;
+}
+
+/* Action button styling */
+.notistack-success .SnackbarContent-action,
+.notistack-error .SnackbarContent-action,
+.notistack-warning .SnackbarContent-action,
+.notistack-info .SnackbarContent-action,
+.notistack-success-dark .SnackbarContent-action,
+.notistack-error-dark .SnackbarContent-action,
+.notistack-warning-dark .SnackbarContent-action,
+.notistack-info-dark .SnackbarContent-action {
+  color: #ffffff !important;
+}
+
+/* Hover effects */
+.notistack-success:hover,
+.notistack-error:hover,
+.notistack-warning:hover,
+.notistack-info:hover,
+.notistack-success-dark:hover,
+.notistack-error-dark:hover,
+.notistack-warning-dark:hover,
+.notistack-info-dark:hover {
+  opacity: 0.9;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Animation improvements */
+.SnackbarContainer-root {
+  z-index: 1400;
+}
+
+.SnackbarItem-root {
+  margin-bottom: 8px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
