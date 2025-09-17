@@ -21,7 +21,6 @@ import {
   CheckCircle as CheckCircleIcon,
   Cloud as CloudIcon,
   Business as BusinessIcon,
-  ArrowUpward as ArrowUpwardIcon,
 } from '@mui/icons-material';
 import { useNotificationStore } from '@/store/notificationStore';
 import { ThemeToggle } from '@/theme/ThemeToggle/ThemeToggle';
@@ -33,23 +32,16 @@ interface ModernHeaderProps {}
 export const ModernHeader: React.FC<ModernHeaderProps> = () => {
   const { notifications, unreadCount, markAsRead, markAllAsRead, removeNotification } = useNotificationStore();
   const [notificationAnchor, setNotificationAnchor] = useState<null | HTMLElement>(null);
-  const [accountAnchor, setAccountAnchor] = useState<null | HTMLElement>(null);
   const location = useLocation();
 
   const notificationOpen = Boolean(notificationAnchor);
-  const accountOpen = Boolean(accountAnchor);
 
   const handleNotificationClick = (event: React.MouseEvent<HTMLElement>) => {
     setNotificationAnchor(event.currentTarget);
   };
 
-  const handleAccountClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAccountAnchor(event.currentTarget);
-  };
-
   const handleClose = () => {
     setNotificationAnchor(null);
-    setAccountAnchor(null);
   };
 
   const handleNotificationItemClick = (notificationId: string) => {
@@ -153,7 +145,6 @@ export const ModernHeader: React.FC<ModernHeaderProps> = () => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: 0.5,
-                  cursor: 'pointer',
                 }}
               >
                 AWS Account
@@ -280,53 +271,6 @@ export const ModernHeader: React.FC<ModernHeaderProps> = () => {
         </Box>
       </Menu>
 
-      {/* Account Menu */}
-      <Menu
-        anchorEl={accountAnchor}
-        open={accountOpen}
-        onClose={handleClose}
-        PaperProps={{
-          sx: {
-            width: 250,
-            mt: 1,
-          }
-        }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-      >
-        <Box sx={{ p: 2, borderBottom: '1px solid', borderColor: 'divider' }}>
-          <Typography variant="h6" fontWeight={600}>
-            Switch Account
-          </Typography>
-        </Box>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <BusinessIcon />
-          </ListItemIcon>
-          <ListItemText
-            primary="AWS Inc MSP"
-            secondary="Production Account"
-          />
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <BusinessIcon />
-          </ListItemIcon>
-          <ListItemText
-            primary="AWS Inc Dev"
-            secondary="Development Account"
-          />
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <BusinessIcon />
-          </ListItemIcon>
-          <ListItemText
-            primary="AWS Inc Staging"
-            secondary="Staging Account"
-          />
-        </MenuItem>
-      </Menu>
     </>
   );
 };
