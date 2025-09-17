@@ -147,7 +147,7 @@ export const ModernHeader: React.FC<ModernHeaderProps> = () => {
                   gap: 0.5,
                 }}
               >
-                AWS Account
+                AWS Inc
               </Typography>
             </Box>
 
