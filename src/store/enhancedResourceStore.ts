@@ -8,7 +8,7 @@ interface EnhancedResourceStore {
   error: string | null;
   lastUpdated: Date | null;
   isRealTimeActive: boolean;
-  realTimeInterval: number | null;
+  realTimeInterval: ReturnType<typeof setInterval> | null;
   _initialized: boolean;
 
   // Actions
@@ -26,19 +26,19 @@ interface EnhancedResourceStore {
 // Helper function to simulate metric updates
 const updateResourceMetrics = (resource: EnhancedResource): EnhancedResource => {
   const now = new Date();
-  
+
   return {
     ...resource,
     metrics: {
       ...resource.metrics,
       cpu: {
         ...resource.metrics.cpu,
-        current: Math.round(Math.max(0, Math.min(100, 
+        current: Math.round(Math.max(0, Math.min(100,
           resource.metrics.cpu.current + (Math.random() - 0.5) * 10
         )) * 10) / 10,
         history: [
           ...resource.metrics.cpu.history.slice(1),
-          Math.round(Math.max(0, Math.min(100, 
+          Math.round(Math.max(0, Math.min(100,
             resource.metrics.cpu.current + (Math.random() - 0.5) * 15
           )) * 10) / 10
         ],
@@ -48,7 +48,7 @@ const updateResourceMetrics = (resource: EnhancedResource): EnhancedResource => 
         percentage: Math.round(Math.max(0, Math.min(100,
           resource.metrics.memory.percentage + (Math.random() - 0.5) * 8
         )) * 10) / 10,
-        current: Math.round(Math.max(0, 
+        current: Math.round(Math.max(0,
           resource.metrics.memory.current + (Math.random() - 0.5) * 0.5
         ) * 10) / 10,
         history: [
@@ -60,7 +60,7 @@ const updateResourceMetrics = (resource: EnhancedResource): EnhancedResource => 
       },
       network: {
         ...resource.metrics.network,
-        inbound: Math.round(Math.max(0, 
+        inbound: Math.round(Math.max(0,
           resource.metrics.network.inbound + (Math.random() - 0.5) * 20
         ) * 10) / 10,
         outbound: Math.round(Math.max(0,
@@ -70,7 +70,7 @@ const updateResourceMetrics = (resource: EnhancedResource): EnhancedResource => 
           ...resource.metrics.network.history.slice(1),
           {
             time: now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
-            inbound: Math.round(Math.max(0, 
+            inbound: Math.round(Math.max(0,
               resource.metrics.network.inbound + (Math.random() - 0.5) * 30
             ) * 10) / 10,
             outbound: Math.round(Math.max(0,
@@ -110,7 +110,7 @@ export const useEnhancedResourceStore = create<EnhancedResourceStore>((set, get)
         ? { ...resource, ...updates, lastUpdated: new Date() }
         : resource
     );
-    
+
     set({
       resources: updatedResources,
       lastUpdated: new Date(),
@@ -120,19 +120,19 @@ export const useEnhancedResourceStore = create<EnhancedResourceStore>((set, get)
   refreshData: async () => {
     const state = get();
     if (state.loading) return; // Prevent multiple simultaneous calls
-    
+
     set({ loading: true, error: null });
-    
+
     try {
       // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 800));
-      
+
       // Use enhanced mock data with updated timestamps
       const resources = enhancedMockResources.map(resource => ({
         ...resource,
         lastUpdated: new Date(),
       }));
-      
+
       set({
         resources,
         lastUpdated: new Date(),
@@ -158,12 +158,12 @@ export const useEnhancedResourceStore = create<EnhancedResourceStore>((set, get)
 
   startRealTimeUpdates: () => {
     const { isRealTimeActive, realTimeInterval } = get();
-    
+
     // Clear any existing interval first
     if (realTimeInterval) {
       clearInterval(realTimeInterval);
     }
-    
+
     if (isRealTimeActive) {
       return; // Already active
     }
@@ -177,28 +177,28 @@ export const useEnhancedResourceStore = create<EnhancedResourceStore>((set, get)
       get().updateMetricsRealTime();
     }, 2000); // Update every 2 seconds for more dynamic feel
 
-    set({ 
-      isRealTimeActive: true, 
-      realTimeInterval: interval 
+    set({
+      isRealTimeActive: true,
+      realTimeInterval: interval
     });
   },
 
   stopRealTimeUpdates: () => {
     const { realTimeInterval } = get();
-    
+
     if (realTimeInterval) {
       clearInterval(realTimeInterval);
     }
 
-    set({ 
-      isRealTimeActive: false, 
-      realTimeInterval: null 
+    set({
+      isRealTimeActive: false,
+      realTimeInterval: null
     });
   },
 
   updateMetricsRealTime: () => {
     const { resources } = get();
-    
+
     if (resources.length === 0) {
       return;
     }

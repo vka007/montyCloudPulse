@@ -7,9 +7,7 @@ import {
 import {
   Dashboard,
   Storage,
-  Cloud,
 } from '@mui/icons-material';
-import { ThemeToggle } from '../../../theme/ThemeToggle';
 import { sidebarLayoutStyles } from './SidebarLayout.styles';
 
 interface SidebarLayoutProps {
@@ -44,41 +42,24 @@ export const SidebarLayout: React.FC<SidebarLayoutProps> = ({
 
   return (
     <Box sx={sidebarLayoutStyles.root}>
-      {/* Sidebar */}
-      <Box
-        sx={{
-          width: isHovered ? 200 : 56,
-          backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#1e293b' : '#1e293b',
-          transition: 'width 0.3s ease-in-out',
-          position: 'relative',
-          zIndex: 1200,
-          borderRight: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.1)'}`,
-        }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Sidebar Header */}
-        <Box sx={sidebarLayoutStyles.sidebarHeader}>
-          <Box sx={sidebarLayoutStyles.logo}>
-            <Box sx={sidebarLayoutStyles.logoIcon}>
-              <Cloud sx={{ fontSize: '1.375rem' }} />
-            </Box>
-            <Typography
-              sx={{
-                fontSize: '0.95rem',
-                fontWeight: 600,
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                opacity: isHovered ? 1 : 0,
-                transition: 'opacity 0.3s ease-in-out',
-                ml: 1,
-                color: 'white',
-              }}
-            >
-              MontyCloud Pulse
-            </Typography>
-          </Box>
-        </Box>
+      {/* Header Content */}
+      {headerContent}
+
+      {/* Main Content Area with Sidebar */}
+      <Box sx={sidebarLayoutStyles.contentWrapper}>
+        {/* Sidebar */}
+        <Box
+          sx={{
+            width: isHovered ? 200 : 56,
+            backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#1e293b' : '#1e293b',
+            transition: 'width 0.3s ease-in-out',
+            position: 'relative',
+            zIndex: 1200,
+            borderRight: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.1)'}`,
+          }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
 
         {/* Navigation */}
         <Box sx={sidebarLayoutStyles.navigation}>
@@ -130,27 +111,17 @@ export const SidebarLayout: React.FC<SidebarLayoutProps> = ({
             </Tooltip>
           ))}
         </Box>
-      </Box>
-
-      {/* Main Content */}
-      <Box sx={sidebarLayoutStyles.mainContent}>
-        {/* Top Bar */}
-        <Box sx={sidebarLayoutStyles.topBar}>
-          <Box sx={sidebarLayoutStyles.topBarContent}>
-            {headerContent}
-          </Box>
-          
-          <Box sx={sidebarLayoutStyles.topBarActions}>
-            <ThemeToggle />
-          </Box>
         </Box>
 
-        {/* Content Area */}
-        <Box sx={{
-          ...sidebarLayoutStyles.contentArea,
-          padding: noPadding ? 0 : '20px',
-        }}>
-          {children}
+        {/* Main Content */}
+        <Box sx={sidebarLayoutStyles.mainContent}>
+          {/* Content Area */}
+          <Box sx={{
+            ...sidebarLayoutStyles.contentArea,
+            padding: noPadding ? 0 : '20px',
+          }}>
+            {children}
+          </Box>
         </Box>
       </Box>
     </Box>
