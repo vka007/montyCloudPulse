@@ -3,70 +3,33 @@ import { SxProps, Theme } from '@mui/material/styles';
 export const sidebarLayoutStyles = {
   root: {
     display: 'flex',
+    flexDirection: 'column',
     height: '100vh',
     overflow: 'hidden',
   } as SxProps<Theme>,
 
+  contentWrapper: {
+    display: 'flex',
+    flex: 1,
+    overflow: 'hidden',
+  } as SxProps<Theme>,
+
   sidebar: {
-    width: 56, // Collapsed width
+    width: 80, // Collapsed width
     backgroundColor: '#1e293b', // Dark sidebar
     transition: 'width 0.3s ease-in-out',
     position: 'relative',
     zIndex: 1200,
     borderRight: '1px solid rgba(255, 255, 255, 0.1)',
     '&:hover': {
-      width: 200, // Expanded width
+      width: 240, // Expanded width
     },
   } as SxProps<Theme>,
 
   sidebarExpanded: {
-    width: 200,
+    width: 240,
   } as SxProps<Theme>,
 
-  sidebarHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '12px 10px',
-    borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-    minHeight: 56,
-  } as SxProps<Theme>,
-
-  logo: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 1,
-    color: 'white',
-    textDecoration: 'none',
-    width: '100%',
-  } as SxProps<Theme>,
-
-  logoIcon: {
-    width: 28,
-    height: 28,
-    backgroundColor: '#3b82f6',
-    borderRadius: '6px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'white',
-    fontSize: '1.1rem',
-    fontWeight: 'bold',
-    flexShrink: 0,
-  } as SxProps<Theme>,
-
-  logoText: {
-    fontSize: '1.1rem',
-    fontWeight: 600,
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    opacity: 0,
-    transition: 'opacity 0.3s ease-in-out',
-    ml: 1,
-  } as SxProps<Theme>,
-
-  logoTextVisible: {
-    opacity: 1,
-  } as SxProps<Theme>,
 
   navigation: {
     padding: '12px 0',
@@ -125,45 +88,6 @@ export const sidebarLayoutStyles = {
     flexDirection: 'column',
     backgroundColor: 'background.default',
     overflow: 'hidden',
-  } as SxProps<Theme>,
-
-  topBar: {
-    backgroundColor: 'background.paper',
-    borderBottom: '1px solid',
-    borderBottomColor: 'divider',
-    padding: '0 24px',
-    paddingTop: '6px',
-    paddingBottom: '6px',
-    minHeight: 64,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-  } as SxProps<Theme>,
-
-  topBarContent: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 3,
-    flex: 1,
-  } as SxProps<Theme>,
-
-  pageTitle: {
-    fontSize: '1.5rem',
-    fontWeight: 600,
-    color: '#1e293b',
-  } as SxProps<Theme>,
-
-  pageSubtitle: {
-    fontSize: '0.9rem',
-    color: '#64748b',
-    mt: 0.5,
-  } as SxProps<Theme>,
-
-  topBarActions: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 2,
   } as SxProps<Theme>,
 
   contentArea: {
