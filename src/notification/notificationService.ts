@@ -4,7 +4,7 @@ import { EnhancedResource } from '@/dataFactory/enhancedMockData';
 export class NotificationService {
   private static instance: NotificationService;
   private notificationStore = useNotificationStore.getState();
-  private simulationInterval: number | null = null;
+  private simulationInterval: ReturnType<typeof setTimeout> | null = null;
   private isSimulating = false;
   private hasInitialized = false;
 
@@ -20,10 +20,10 @@ export class NotificationService {
   // Check for CPU spikes (only after initialization to avoid initial load notifications)
   checkCpuSpikes(resources: EnhancedResource[]): void {
     if (!this.hasInitialized) return; // Don't check spikes on initial load
-    
+
     resources.forEach((resource) => {
       const cpuUsage = resource.metrics.cpu.current;
-      
+
       if (cpuUsage > 90) {
         this.addCriticalNotification({
           type: 'cpu_spike',
@@ -49,10 +49,10 @@ export class NotificationService {
   // Check for memory spikes (only after initialization to avoid initial load notifications)
   checkMemorySpikes(resources: EnhancedResource[]): void {
     if (!this.hasInitialized) return; // Don't check spikes on initial load
-    
+
     resources.forEach((resource) => {
       const memoryUsage = resource.metrics.memory.percentage;
-      
+
       if (memoryUsage > 95) {
         this.addCriticalNotification({
           type: 'memory_spike',
@@ -89,11 +89,11 @@ export class NotificationService {
   startSimulation(resources: EnhancedResource[]): void {
     // Always stop any existing simulation first
     this.stopSimulation();
-    
+
     console.log('Starting notification simulation at:', new Date().toLocaleTimeString());
     this.isSimulating = true;
     this.hasInitialized = true;
-    
+
     // Schedule the first notification after a random delay
     this.simulationInterval = setTimeout(() => {
       this.generateRandomNotification(resources);
@@ -113,7 +113,7 @@ export class NotificationService {
   // Generate random notification
   private generateRandomNotification(resources: EnhancedResource[]): void {
     if (resources.length === 0) return;
-    
+
     // Debug log to track notification generation
     console.log('Generating notification at:', new Date().toLocaleTimeString());
 
@@ -145,7 +145,7 @@ export class NotificationService {
     };
 
     const notification = notifications[randomType];
-    
+
     this.notificationStore.addNotification({
       type: randomType,
       title: notification.title,

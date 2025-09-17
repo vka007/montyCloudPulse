@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TabValue } from '@/types/navigation';
 import { SidebarLayout } from '../../components/common/SidebarLayout';
-import { ApplicationHeader } from '../../components/common/ApplicationHeader/ApplicationHeader';
+import { ModernHeader } from '../../components/common/ModernHeader/ModernHeader';
 
 interface NavigationProps {
   children: React.ReactNode;
@@ -23,25 +23,8 @@ export const Navigation: React.FC<NavigationProps> = ({ children }) => {
     }
   }, [location.pathname]);
 
-  const getHeaderContent = (tabValue: TabValue) => {
-    switch (tabValue) {
-      case 'dashboard':
-        return (
-          <ApplicationHeader
-            title="Cloud Resources Dashboard"
-            subtitle="Monitor and manage your cloud infrastructure in real-time"
-          />
-        );
-      case 'inventory':
-        return (
-          <ApplicationHeader
-            title="Resource Inventory"
-            subtitle="Search, filter, and manage your cloud resources"
-          />
-        );
-      default:
-        return null;
-    }
+  const getHeaderContent = () => {
+    return <ModernHeader />;
   };
 
 
@@ -53,7 +36,7 @@ export const Navigation: React.FC<NavigationProps> = ({ children }) => {
 
   return (
     <SidebarLayout
-      headerContent={getHeaderContent(activeTab)}
+      headerContent={getHeaderContent()}
       activeTab={activeTab}
       onTabChange={handleTabChange}
       noPadding={activeTab === 'dashboard'}
